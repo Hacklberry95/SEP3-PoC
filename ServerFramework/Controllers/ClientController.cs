@@ -4,12 +4,43 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ServerFramework.Services;
+using ServerFramework.Data;
 
 namespace ServerFramework.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/clientControl")]
     [ApiController]
     public class ClientController : ControllerBase
     {
+        ClientWebService client;
+
+        public async Task<ActionResult> PostConfirmation(int orderId)
+        {
+            try
+            {
+                await client.ConfirmOrder(orderId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        public async Task<ActionResult> PostConfirmation(Order order)
+        {
+            try
+            {
+                await client.ConfirmOrder(order);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }
     }
 }
