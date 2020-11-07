@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ClientFramework.Data;
+using ClientFramework.Pages;
 
 namespace ClientFramework
 {
@@ -28,6 +29,7 @@ namespace ClientFramework
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddScoped<Outbound>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
