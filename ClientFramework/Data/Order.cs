@@ -1,4 +1,5 @@
-﻿namespace ClientFramework.Data
+
+namespace ClientFramework.Data
 {
     public class Order
     {
