@@ -9,6 +9,9 @@ namespace ServerFramework.Services
 {
     public class DataWebServiceImpl : DataWebService
     {
-      
+        public Task ConfirmOrder(int orderId)
+        {
+            return null;
+        }
     }
 }

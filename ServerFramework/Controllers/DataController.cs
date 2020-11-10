@@ -13,6 +13,21 @@ namespace ServerFramework.Controllers
     [ApiController]
     public class DataController : ControllerBase
     {
-      
+        private DataWebService db;
+        private string URI;
+        
+        [HttpPost]
+        public async void ConfirmOrder(int orderId)
+        {
+            try
+            {
+                await db.ConfirmOrder(orderId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
     }
 }
