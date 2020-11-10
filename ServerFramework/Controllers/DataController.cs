@@ -13,21 +13,6 @@ namespace ServerFramework.Controllers
     [ApiController]
     public class DataController : ControllerBase
     {
-        DataWebService client;
-
-        public async Task<ActionResult> RefactorThisToo(int OID)
-        {
-            try
-            {
-                await client.RefactorTheNameLater(OID);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return StatusCode(500, e.Message);
-            }
-        }
-        
+      
     }
 }
