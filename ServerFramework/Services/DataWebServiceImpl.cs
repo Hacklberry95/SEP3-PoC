@@ -9,9 +9,13 @@ namespace ServerFramework.Services
 {
     public class DataWebServiceImpl : DataWebService
     {
-        public Task ConfirmOrder(int orderId)
+        public async Task ConfirmOrder(int orderId)
         {
-            return null;
+            //bruh moment in my brain, where to send that shid
+            HttpClient httpClient = new HttpClient();
+            string serialId = JsonSerializer.Serialize(orderId, orderId.GetType());
+            StringContent content = new StringContent(serialId);
+            await httpClient.PostAsync(, content);
         }
     }
 }
