@@ -1,6 +1,7 @@
 package DBServer;
 
 import DBServer.Services.DBService;
+import DBServer.Services.IDBService;
 import SQL.SQLQueryInterpreter;
 
 import javax.xml.ws.Endpoint;
@@ -10,7 +11,7 @@ public class app
 {
     public static void main(String[] args) throws SQLException, InterruptedException
     {
-        DBService service = new DBService();
+        IDBService service = new DBService();
         String address = "http://localhost:9000/dbServer";
         Endpoint.publish(address, service);
 
