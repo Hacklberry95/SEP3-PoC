@@ -7,5 +7,6 @@ namespace ServerFramework.Services
 {
     interface DataWebService
     {
+        public Task RefactorTheNameLater(int OID);
     }
 }
