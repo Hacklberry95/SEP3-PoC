@@ -2,42 +2,32 @@
 
 @using ClientFramework.Data
 @using System.ComponentModel.DataAnnotations
+@using ClientFramework.REST
 @inject NavigationManager NavigationManager
 
 <h3>Outbound</h3>
-<EditForm Model="@_validationModel" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
-    <ValidationSummary>
-    <div class="align-items-center">
+
+<div class="align-items-center">
         <p>
             <h6>Please input a valid order number:</h6>
         </p>
         <p>
-            <InputNumber @bind-Value="_validationModel.OrderNo" />
+            <input type="number" id="id" name="id" @bind-value="OrderNo" @bind-value:event="oninput">
         </p>
         <p>
-            <button class="btn-danger order-0" type="submit">Confirm order</button>
+            <button onclick="@SendMessage()">Confirm order</button>
         </p>
     </div>
-    </ValidationSummary>
-</EditForm>
 
 
 @code {
+
+    [Required(ErrorMessage = "Wrong input, please try again")]
+    public int OrderNo { get; set; }
     
-    private OutboundValidationModel _validationModel = new OutboundValidationModel();
-
-    private void HandleInvalidSubmit() {
-        Console.WriteLine("Invalid");
-    }
-
-    private void HandleValidSubmit() {
-        NavigationManager.NavigateTo("/");
-    }
-
-    private class OutboundValidationModel
+    public async Task SendMessage()
     {
-        [Required(ErrorMessage = "Wrong input, please try again")]
-        [Range(1000000,9999999, ErrorMessage = "Please enter a valid order")]
-        public int OrderNo { get; set; }
+        CustomHTTPRequests requests = new CustomHTTPRequests();
+        await requests.PostConfirmation(OrderNo);
     }
 }

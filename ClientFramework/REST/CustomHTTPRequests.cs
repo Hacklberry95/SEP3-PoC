@@ -10,6 +10,7 @@ namespace ClientFramework.REST
     {
         public async Task<HttpResponseMessage> PostConfirmation(int orderID)
         {
+            System.Diagnostics.Debug.WriteLine("PostConfirmation");
             HttpClient client = new HttpClient();
             Uri webService = new Uri("");
             string jsonString = "";
