@@ -10,8 +10,9 @@ import java.sql.SQLException;
 @RequestMapping("/team")
 public class DBController
 {
+    @Autowired
     IDBService idbService;
-    //@Autowired
+    //
     //  TeamService service;
 
     @PostMapping("WOrder")
