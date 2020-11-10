@@ -9,10 +9,15 @@ import java.sql.SQLException;
 @WebService(endpointInterface = "DBServer.Services.IDBService", serviceName = "DatabaseService")
 public class DBService implements IDBService
 {
-    public void ConfirmOrder(@WebParam(name = "id") int id) throws SQLException
+   /* public void ConfirmOrder(@WebParam(name = "id") int id) throws SQLException
     {
         SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
         interpreter.newOrderConfirmQuery(id);
 
-    }
+    }*/
+   public void ConfirmOrder(int id) throws SQLException
+   {
+       SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
+       interpreter.newOrderConfirmQuery(id);
+   }
 }
