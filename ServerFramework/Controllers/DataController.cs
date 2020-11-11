@@ -14,8 +14,12 @@ namespace ServerFramework.Controllers
     public class DataController : ControllerBase
     {
         private DataWebService db;
-        private string URI;
-        
+
+        public DataController()
+        {
+            db = new DataWebServiceImpl();
+        }
+
         [HttpPost]
         public async void ConfirmOrder(int orderId)
         {

@@ -15,6 +15,12 @@ namespace ServerFramework.Controllers
     {
         ClientWebService client;
 
+        public ClientController()
+        {
+            client = new ClientWebServiceImpl();
+        }
+
+        [HttpPost]
         public async Task<ActionResult> PostConfirmation(int orderId)
         {
             try
@@ -29,6 +35,7 @@ namespace ServerFramework.Controllers
             }
         }
 
+        [HttpPost]
         public async Task<ActionResult> PostConfirmation(Order order)
         {
             try

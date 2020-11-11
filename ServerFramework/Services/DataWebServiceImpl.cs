@@ -11,11 +11,12 @@ namespace ServerFramework.Services
     {
         public async Task ConfirmOrder(int orderId)
         {
-            //bruh moment in my brain, where to send that shid
+            System.Diagnostics.Debug.WriteLine("DataWebServiceConfirm");
             HttpClient httpClient = new HttpClient();
+            Uri uri = new Uri("http://localhost:8080/team/WOrder");
             string serialId = JsonSerializer.Serialize(orderId, orderId.GetType());
             StringContent content = new StringContent(serialId);
-            await httpClient.PostAsync(, content);
+            await httpClient.PostAsync(uri, content);
         }
     }
 }

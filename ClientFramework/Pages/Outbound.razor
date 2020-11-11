@@ -12,7 +12,7 @@
             <h6>Please input a valid order number:</h6>
         </p>
         <p>
-            <input type="number" id="id" name="id" @bind-value="OrderNo" @bind-value:event="oninput">
+            <input type="number" id="id" name="id" @bind-value="OrderNo" @bind-value:event="onchange">
         </p>
         <p>
             <button onclick="@SendMessage()">Confirm order</button>

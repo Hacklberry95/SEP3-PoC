@@ -15,15 +15,16 @@ public class DBController
     //
     //  TeamService service;
 
-    @PostMapping("WOrder")
+    @PostMapping("/WOrder")
     public void writeOrder(@RequestBody final int id)
     {
+        System.out.println("WriteOrderPostMap");
         try {
             idbService.ConfirmOrder(id);
         }
         catch (SQLException e)
         {
-            System.out.println("why are we here");
+            e.printStackTrace();
         }
     }
 
