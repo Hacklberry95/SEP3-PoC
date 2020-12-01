@@ -17,8 +17,8 @@ namespace ClientFramework.Data
         private User user;
         public string Firstname { get => firstName; }
         public string Lastname { get => lastName; }
-        public int ID { get => id; set => id = ID; }
-        public List<Role> Roles { get => roles; set => roles = Roles; }
+        public int ID { get => id; set => id = value; }
+        public List<Role> Roles { get => roles; set => roles = value; }
         
         
         /// <summary>
