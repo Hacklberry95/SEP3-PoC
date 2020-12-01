@@ -79,15 +79,23 @@
         /// <param name="length"></param>
         /// <param name="height"></param>
         /// <param name="description"></param>
-        public Item(int id, string name, double weight, double width, double length, double height, string description)
+        public Item(string name, double weight, double width, double length, double height, string description)
         {
-            this.id = id;
             this.name = name;
             this.weight = weight;
             this.width = width;
             this.length = length;
             this.height = height;
             this.description = description;
+        }
+
+        /// <summary>
+        /// Finishes setup of the Item class. WARNING: call immediately after server gets the ID for the Item added to the database.
+        /// </summary>
+        /// <param name="id"></param>
+        public void Setup(int id)
+        {
+            this.id = id;
         }
     }
 }

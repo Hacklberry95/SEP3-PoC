@@ -1,41 +1,62 @@
+using System.Collections.Generic;
 
 namespace ClientFramework.Data
 {
+    /// <summary>
+    /// This class stores the orders
+    /// </summary>
     public class Order
     {
-        private int orderId;
+        private int id;
         private int orderState;
-
-        public Order()
+        private List<Item> items;
+        private List<Location> locations;
+        public int Id
         {
-            orderId = -1;
+            get => id;
+            set => id = value;
+        }
+        public int OrderState
+        {
+            get => orderState;
+            set => orderState = value;
+        }
+        public List<Item> Items
+        {
+            get => items;
+            set => items = value;
+        }
+        public List<Location> Locations
+        {
+            get => locations;
+            set => locations = value;
+        }
+
+        /// <summary>
+        /// Constructor for the Order class
+        /// </summary>
+        /// <param name="items"></param>
+        public Order(List<Item> items)
+        {
+            this.items = items;
             orderState = 0;
         }
 
-        public Order(int orderId)
+        /// <summary>
+        /// Finishes the setup of the Order class. WARNING: call immediately after server gets the ID for the Order added to the database.
+        /// </summary>
+        /// <param name="id"></param>
+        public void InitOrder(int id)
         {
-            this.orderId = orderId;
-            orderState = 0;
+            this.id = id;
         }
 
-        public void setOrderState(int i)
+        /// <summary>
+        /// 
+        /// </summary>
+        public void ChangeOrderState()
         {
-            orderState = i;
-        }
-
-        public int getOrderState()
-        {
-            return orderState;
-        }
-
-        public void setOrderId(int id)
-        {
-            orderId = id;
-        }
-
-        public int getOrderId()
-        {
-            return orderId;
+            
         }
     }
 }
