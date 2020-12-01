@@ -40,7 +40,7 @@ namespace ClientFramework.Data
         /// Finishes setup of the Person class. WARNING: call immediately after server gets the ID for the Person added to the database.
         /// </summary>
         /// <param name="id">The ID of the person, got from the database.</param>
-        public void setup(int id)
+        public void Setup(int id)
         {
             this.id = id;  
         }
