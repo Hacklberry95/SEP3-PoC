@@ -9,5 +9,8 @@ public class ConnectionPool
     {
         connections.add(handler);
     }
-
+    public void removeHandler(SocketHandler handler)
+    {
+        connections.remove(handler);
+    }
 }
