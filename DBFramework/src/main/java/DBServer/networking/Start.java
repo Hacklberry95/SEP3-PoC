@@ -15,7 +15,7 @@ public class Start
             {
                 System.out.println("[SERVER] Waiting for client connection");
                 Socket socket = serverSocket.accept();
-                SocketHandler socketHandler = new SocketHandler();
+                SocketHandler socketHandler = new SocketHandler(socket);
                 new Thread(socketHandler).start();
                 System.out.println("[SERVER] Connected to client");
             }
