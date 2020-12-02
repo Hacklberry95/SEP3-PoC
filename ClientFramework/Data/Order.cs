@@ -35,7 +35,7 @@ namespace ClientFramework.Data
         /// <summary>
         /// Constructor for the Order class
         /// </summary>
-        /// <param name="items"></param>
+        /// <param name="items">The list of items in the order.</param>
         public Order(List<Item> items)
         {
             this.items = items;
@@ -45,18 +45,24 @@ namespace ClientFramework.Data
         /// <summary>
         /// Finishes the setup of the Order class. WARNING: call immediately after server gets the ID for the Order added to the database.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The ID retrieved from the database.</param>
         public void InitOrder(int id)
         {
             this.id = id;
         }
 
         /// <summary>
-        /// 
+        /// Method to change order state. Enabling changes depends on authorization roles and current order state.
+        /// Possible order states:
+        /// 0 - order created
+        /// 1 - order in queue
+        /// 2 - order assigned
+        /// 3 - order loading
+        /// 4 - order complete
         /// </summary>
         public void ChangeOrderState()
         {
-            
+            //Don't forget to create role checking method.
         }
     }
 }

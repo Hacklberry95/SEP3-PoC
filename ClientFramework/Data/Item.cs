@@ -20,33 +20,33 @@
             set => name = value;
         }
 
-        private double weight;
+        private float weight;
 
-        public double Weight
+        public float Weight
         {
             get => weight;
             set => weight = value;
         }
 
-        private double width;
+        private float width;
 
-        public double Width
+        public float Width
         {
             get => width;
             set => width = value;
         }
 
-        private double length;
+        private float length;
 
-        public double Length
+        public float Length
         {
             get => length;
             set => length = value;
         }
 
-        private double height;
+        private float height;
 
-        public double Height
+        public float Height
         {
             get => height;
             set => height = value;
@@ -65,21 +65,20 @@
         /// </summary>
         /// <returns>Returns the volume of the item</returns>
         
-        private double Volume()
+        private float Volume()
         {
             return width * length * height;
         }
         /// <summary>
         /// Constructor for the Item class
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="name"></param>
         /// <param name="weight"></param>
         /// <param name="width"></param>
         /// <param name="length"></param>
         /// <param name="height"></param>
         /// <param name="description"></param>
-        public Item(string name, double weight, double width, double length, double height, string description)
+        public Item(string name, float weight, float width, float length, float height, string description)
         {
             this.name = name;
             this.weight = weight;
