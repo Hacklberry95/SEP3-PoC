@@ -11,7 +11,6 @@ public class Start
         try
         {
             ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
-            ConnectionPool connectionPool = new ConnectionPool();
             while(true)
             {
                 System.out.println("[SERVER] Waiting for client connection");
