@@ -16,6 +16,12 @@ namespace ClientFramework.Data
         public string Line { get => line; set => line = value; }
         public string Area { get => area; set => area = value; }
 
+        /// <summary>
+        /// Constructor for the Location class.
+        /// </summary>
+        /// <param name="number">The number of the shelves in the line.</param>
+        /// <param name="line">The number of the line in the area.</param>
+        /// <param name="area">Marks the area where the lines of the shelves are.</param>
         public Location(string number, string line, string area)
         {
             this.number = number;
