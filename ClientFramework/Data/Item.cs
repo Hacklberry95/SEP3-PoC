@@ -72,12 +72,12 @@
         /// <summary>
         /// Constructor for the Item class
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="weight"></param>
-        /// <param name="width"></param>
-        /// <param name="length"></param>
-        /// <param name="height"></param>
-        /// <param name="description"></param>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="weight">The weight of the item in kilograms (kg).</param>
+        /// <param name="width">The width of the item to calculate volume.</param>
+        /// <param name="length">The length of the item to calculate volume.</param>
+        /// <param name="height">The height of the item to calculate volume.</param>
+        /// <param name="description">The description of the item.</param>
         public Item(string name, float weight, float width, float length, float height, string description)
         {
             this.name = name;
@@ -91,7 +91,7 @@
         /// <summary>
         /// Finishes setup of the Item class. WARNING: call immediately after server gets the ID for the Item added to the database.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The ID of the item, got from the database.</param>
         public void Setup(int id)
         {
             this.id = id;

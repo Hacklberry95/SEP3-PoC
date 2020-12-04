@@ -2,6 +2,7 @@
 using ClientFramework.REST;
 using NuGet.Frameworks;
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -14,11 +15,11 @@ namespace ClientUnitTests
         Order o2;
 
         [SetUp]
-        public void Setup()
+        public void Setup(List<Item> items)
         {
             requests = new CustomHTTPRequests();
-            o1 = new Order(0);
-            o2 = new Order(222);
+            o1 = new Order(items);
+            o2 = new Order(items);
         }
 
         [Test]
