@@ -40,5 +40,18 @@ namespace ClientFramework.REST
             if (message.IsSuccessStatusCode) return message;
             else return null;
         }
+
+        public async Task<HttpResponseMessage> PostLogin(string username, string password)
+        {
+            HttpClient client = new HttpClient();
+            Uri webService = new Uri("");
+            string transform = username + "%" + password;
+            string jsonString = "";
+            jsonString = JsonSerializer.Serialize(transform, transform.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode) return message;
+            else return null;
+        }
     }
 }

@@ -1,5 +1,23 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+@using ClientFramework.Data
+@using System.ComponentModel.DataAnnotations
+@using ClientFramework.REST
 
-Welcome to your new app.
+<img src="~/css/img/logo.png" alt="Company logo" class="company-logo main-menu-logo">
+
+<p>Username: <input @bind-value="username"></p>
+<p>Password: <input @bind-value="password"></p>
+
+<button onclick="@Login()">Login</button>
+
+@code {
+    private string username;
+    private string password;
+
+    private async Task Login()
+    {
+        CustomHTTPRequests c = new CustomHTTPRequests();
+        await c.PostLogin(username, password);
+    }
+}
