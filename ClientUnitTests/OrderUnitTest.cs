@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ClientUnitTests
 {
-    public class Tests
+    [Obsolete]
+    public class OrderUnitTest
     {
         public Order order;
         

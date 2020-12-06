@@ -12,7 +12,7 @@ namespace ServerFramework.Services
     {      
         public async Task ConfirmOrder(Order order)
         {
-            int i = order.getOrderId();
+            int i = order.Id;
             await ConfirmOrder(i);
         }
 

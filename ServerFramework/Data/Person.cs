@@ -1,10 +1,10 @@
-﻿using ClientFramework.Authorization;
+﻿using ServerFramework.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ClientFramework.Data
+namespace ServerFramework.Data
 {
     /// <summary>
     /// Class to store persons. Stores name, id, and authorization roles.
