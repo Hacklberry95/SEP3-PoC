@@ -1,12 +1,16 @@
 package SQL;
 
-import DBServer.networking.Item;
+import DBServer.Data.Item;
+import DBServer.Data.Order;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SQLQueryInterpreter
 {
     private Connection c;
+    private ArrayList<Integer> intArr;
 
     public SQLQueryInterpreter()
     {
@@ -71,7 +75,19 @@ public class SQLQueryInterpreter
         Statement st = c.createStatement();
         ResultSet rs = st.executeQuery(query);
         //write rs.getObject statements in Item creation
-        Item item = new Item();
+        Item item = new Item(rs.getString("name"), rs.getFloat("weight"), rs.getFloat("width"),
+        rs.getFloat("length"), rs.getFloat("height"), rs.getString("description"));
         return item;
+    }
+
+    public Order getOrderById(int id) throws SQLException
+    {
+        String query = "SELECT * FROM order WHERE (id = " + id + ");";
+        Statement st = c.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        Order order = new Order(rs.getInt("orderid"), rs.getInt("orderstate"),
+                new ArrayList<Integer>(Arrays.asList((Integer[]) rs.getArray("items").getArray())),
+                new ArrayList<Integer>(Arrays.asList((Integer[]) rs.getArray("\"itemCounts\"").getArray())));
+        return order;
     }
 }
