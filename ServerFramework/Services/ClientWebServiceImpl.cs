@@ -15,8 +15,24 @@ namespace ServerFramework.Services
             int i = order.Id;
             await ConfirmOrder(i);
         }
+        
+        public async Task ReceiveItem(Item item)
+        {
+            int i = item.Id;
+            await ReceiveItem(i);
+        }
 
         public async Task ConfirmOrder(int id)
+        {
+            System.Diagnostics.Debug.WriteLine("ClientWebServiceConfirm");
+            HttpClient httpClient = new HttpClient();
+            Uri DataURI = new Uri("http://localhost:5001/ServerFramework/api/dataControl");
+            string serialId = JsonSerializer.Serialize(id, id.GetType());
+            StringContent content = new StringContent(serialId);
+            await httpClient.PostAsync(DataURI, content);
+        }
+        
+        public async Task ReceiveItem(int id)
         {
             System.Diagnostics.Debug.WriteLine("ClientWebServiceConfirm");
             HttpClient httpClient = new HttpClient();

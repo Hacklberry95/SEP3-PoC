@@ -34,6 +34,7 @@ namespace ServerFramework.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+        
 
         [HttpPost]
         public async Task<ActionResult> PostConfirmation(Order order)
@@ -49,5 +50,35 @@ namespace ServerFramework.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+        
+        [HttpPost]
+        public async Task<ActionResult> PostConfirmation(Item item)
+        {
+            try
+            {
+                await client.ReceiveItem(item);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }
+/*
+        [HttpPost]
+        public async Task<ActionResult> PostConfirmation(int itemId)
+        {
+            try
+            {
+                await client.ReceiveItem(itemId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }*/
     }
 }
