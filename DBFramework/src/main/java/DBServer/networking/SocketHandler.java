@@ -28,28 +28,14 @@ public class SocketHandler implements Runnable
     @Override
     public void run()
     {
-        try
+        while (true)
         {
-            while (true)
-            {
-
-                //call something from dbservice or whatever idc
-                //string response = bigMethodFromDBServiceOrWhatever(rec(inFromClient))
-                //if(response != null)
-                //{
-                //    trans(response);
-                //}
-            }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            poolService.removeHandler(this);
-            try {
-                socket.close();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+            //call something from dbservice or whatever idc
+            //string response = bigMethodFromDBServiceOrWhatever(rec(inFromClient))
+            //if(response != null)
+            //{
+            //    trans(response);
+            //}
         }
     }
     private String rec(InputStream is) throws IOException

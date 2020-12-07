@@ -1,4 +1,4 @@
-package DBServer.networking;
+package DBServer.Data;
 
 /**
  * Item class, matches Server's.
