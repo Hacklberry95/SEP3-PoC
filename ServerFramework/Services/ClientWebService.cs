@@ -10,5 +10,7 @@ namespace ServerFramework.Services
     {
         public Task ConfirmOrder(int id);
         public Task ConfirmOrder(Order order);
+        public Task ReceiveItem(Item item);
+        public Task ReceiveItem(int id);
     }
 }

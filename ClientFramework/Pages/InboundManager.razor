@@ -1,0 +1,64 @@
+﻿@page "/InboundManager"
+
+
+@using ClientFramework.Data
+@using System.ComponentModel.DataAnnotations
+@using ClientFramework.REST
+@inject NavigationManager NavigationManager
+
+<h3>Inbound Manager</h3>
+
+<div class="align-items-center">
+        <p>
+            <h6>Receive Items</h6>
+        </p>
+    <p>
+        <label>ID: </label><input type="number" name="Id" @bind-value="Id" @bind-value:event="onchange">
+    </p>
+    <p>
+        <label>Name: </label> <input type="text" name="Name" @bind-value="Name" @bind-value:event="onchange">
+    </p>
+    <p>
+        <label>Weight: </label><input type="number" name="Weight" @bind-value="Weight" @bind-value:event="onchange">
+    </p>
+    <p>
+        <label>Width: </label><input type="number" name="Width" @bind-value="Width" @bind-value:event="onchange">
+    </p>
+    <p>
+        <label>Length: </label><input type="number" name="Length" @bind-value="Length" @bind-value:event="onchange">
+    </p>
+    <p>
+        <label>Height: </label><input type="number" name="Height" @bind-value="Height" @bind-value:event="onchange">
+    </p>
+    <p>
+        <label>Description: </label><input type="text" name="Description" @bind-value="Description" @bind-value:event="onchange">
+    </p>
+    <p>
+        <label>Amount to Receive: </label><input type="number" name="Amount to Receive" @bind-value="Stock" @bind-value:event="onchange">
+    </p>
+    <p>
+            <button onclick="@CreateItem()">Create new item</button>
+        </p>
+    </div>
+
+
+
+@code {
+
+    private Item item { get; set; }
+
+    private int Id { get; set; }
+    private string Name { get; set; }
+    private float Weight { get; set; }
+    private float Width { get; set; }
+    private float Length { get; set; }
+    private float Height { get; set; }
+    private string Description { get; set; }
+    private int Stock { get; set; }
+    
+    public async Task CreateItem()
+    {
+        CustomHTTPRequests requests = new CustomHTTPRequests();
+        await requests.PostConfirmation(item);
+    }
+}

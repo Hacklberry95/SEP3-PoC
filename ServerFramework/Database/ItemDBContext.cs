@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace ServerFramework.Database
@@ -17,7 +18,7 @@ namespace ServerFramework.Database
         /// <param name="item">Item to be added to the database</param>
         public void AddItem(Item item)
         {
-
+            
         }
         public void RemoveItem(int id)
         {
