@@ -1,7 +1,8 @@
 ﻿@page "/NewOrder"
+@using ClientFramework.REST
 <h3>NewOrder</h3>
 
-<h2>Would you like to take another order?</h2>
+<h2>Would you like to take a new order?</h2>
 
 
 <button onclick="@Affirmation()">YES</button>
@@ -9,12 +10,13 @@
 
 @code {
 
-    private async Task Affirmation()
+    private static async Task Affirmation()
     {
-        
+        CustomHTTPRequests c = new CustomHTTPRequests();
+        await c.GetOrder();
     }
 
-    private async Task Negation()
+    private static async Task Negation()
     {
         
     }
