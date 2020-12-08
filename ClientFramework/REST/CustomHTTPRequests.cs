@@ -54,7 +54,7 @@ namespace ClientFramework.REST
         }
         
         public async Task<HttpResponseMessage> PostLogin(string username, string password)
-        {
+        { 
             HttpClient client = new HttpClient();
             Uri webService = new Uri("");
             string transform = username + "%" + password;
