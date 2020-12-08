@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
+using ClientFramework.Authorization;
+using ClientFramework.Authorization.AuthRoles;
 
 namespace ClientFramework.Data
 {
