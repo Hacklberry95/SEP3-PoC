@@ -10,6 +10,7 @@ namespace ClientFramework.Data
         private int id;
         private int orderState;
         private List<Item> items;
+        private List<int> itemCounts;
         private List<Location> locations;
         public int Id
         {
@@ -31,14 +32,17 @@ namespace ClientFramework.Data
             get => locations;
             set => locations = value;
         }
+        public List<int> ItemCounts { get => itemCounts; set => itemCounts = value; }
 
         /// <summary>
         /// Constructor for the Order class
         /// </summary>
         /// <param name="items">The list of items in the order.</param>
-        public Order(List<Item> items)
+        /// <param name="itemCounts">The list of the number of items to be picked in the order.</param>
+        public Order(List<Item> items, List<int> itemCounts)
         {
             this.items = items;
+            this.itemCounts = itemCounts;
             orderState = 0;
         }
 
@@ -62,7 +66,19 @@ namespace ClientFramework.Data
         /// </summary>
         public void ChangeOrderState()
         {
-            //Don't forget to create role checking method.
+            User user = new User();
+            if (user.Roles.OfType<Picker>().Any() && orderState == 1)
+            {
+                orderState++;
+            }
+            else if (user.Roles.OfType<Picker>().Any() && orderState == 2)
+            {
+                orderState++;
+            }
+            else if (user.Roles.OfType<Loader>().Any() && orderState == 3)
+            {
+                orderState++;
+            }
         }
     }
 }

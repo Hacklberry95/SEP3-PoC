@@ -11,7 +11,9 @@ namespace ServerFramework.Authorization
     public class User
     {
         private string username, password;
+        private List<Role> roles;
         public string Username { get => username; set => username = value; }
         public string Password { get => password; set => password = value; }
+        public List<Role> Roles { get => roles; set => roles = value; }
     }
 }
