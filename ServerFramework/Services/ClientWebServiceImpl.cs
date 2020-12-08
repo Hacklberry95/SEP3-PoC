@@ -41,5 +41,13 @@ namespace ServerFramework.Services
             StringContent content = new StringContent(serialId);
             await httpClient.PostAsync(DataURI, content);
         }
+
+        public async Task getOrder()
+        {
+            HttpClient httpClient = new HttpClient();
+            Uri DataURI = new Uri("http://localhost:5001/ServerFramework/api/dataControl");
+            await httpClient.GetAsync(DataURI, )
+        }
+        
     }
 }

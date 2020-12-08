@@ -1,5 +1,6 @@
 ﻿using ClientFramework.Data;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -64,6 +65,17 @@ namespace ClientFramework.REST
             HttpResponseMessage message = await client.PostAsync(webService, content);
             if (message.IsSuccessStatusCode) return message;
             else return null;
+        }
+
+        public async Task<Order> GetOrder()
+        {
+            HttpClient client = new HttpClient();
+            Uri webService = new Uri("");
+            string jsonString = "";
+            jsonString = await client.GetStringAsync(webService);
+            Order order = new Order(null);
+            order = (Order) JsonSerializer.Deserialize(jsonString, order.GetType());
+            return order;
         }
     }
 }
