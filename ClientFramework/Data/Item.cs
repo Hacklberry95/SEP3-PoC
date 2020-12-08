@@ -8,14 +8,14 @@ namespace ClientFramework.Data
     /// </summary>
     public class Item
     {
-        [Required(ErrorMessage = "Id is required, Nig!!!@ ")]
+        [Required(ErrorMessage = "Id is required,!")]
         private int id;
         public int Id
         {
             get => id;
             set => id = value;
         }
-        [Required (ErrorMessage = "Name is required, faggot!!!!")]
+        [Required (ErrorMessage = "Name is required!")]
         private string name;
 
         public string Name
@@ -55,7 +55,7 @@ namespace ClientFramework.Data
             get => height;
             set => height = value;
         }
-        [MaxLength(128, ErrorMessage = "Must not be over {1}. THANKS!!!")]
+        [MaxLength(128, ErrorMessage = "Must not be over {1}.")]
         private string description;
         
         public string Description
@@ -63,7 +63,7 @@ namespace ClientFramework.Data
             get => description;
             set => description = value;
         }
-        [Required, Range(1, 500, ErrorMessage = "Cannot receive more than {2} at a time. fuck off!!!!!!!!")]
+        [Required, Range(1, 500, ErrorMessage = "Cannot receive more than {2} at a time.")]
         private int stock;
 
         public int Stock

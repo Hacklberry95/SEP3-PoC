@@ -41,7 +41,7 @@ namespace ClientFramework.REST
             else return null;
         }
 
-        public async Task<HttpResponseMessage> PostConfirmation(Item item)
+        public async Task<HttpResponseMessage> PostNewItem(Item item)
         {
             HttpClient client = new HttpClient();
             Uri webService = new Uri("");
@@ -52,7 +52,19 @@ namespace ClientFramework.REST
             if (message.IsSuccessStatusCode) return message;
             else return null;
         }
-        
+        public async Task<HttpResponseMessage> PostAddMoreItem(int id, int count)
+        {
+            HttpClient client = new HttpClient();
+            Uri webService = new Uri("");
+            string jsonString = "";
+            string sendString = id.ToString() + "#" + count.ToString();
+            jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode) return message;
+            else return null;
+        }
+
         public async Task<HttpResponseMessage> PostLogin(string username, string password)
         {
             HttpClient client = new HttpClient();

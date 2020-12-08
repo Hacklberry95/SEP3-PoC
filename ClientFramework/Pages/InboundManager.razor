@@ -9,9 +9,9 @@
 <h3>Inbound Manager</h3>
 
 <div class="align-items-center">
-        <p>
-            <h6>Receive Items</h6>
-        </p>
+    <p>
+        <h6>Receive Items</h6>
+    </p>
     <p>
         <label>ID: </label><input type="number" name="Id" @bind-value="Id" @bind-value:event="onchange">
     </p>
@@ -37,9 +37,12 @@
         <label>Amount to Receive: </label><input type="number" name="Amount to Receive" @bind-value="Stock" @bind-value:event="onchange">
     </p>
     <p>
-            <button onclick="@CreateItem()">Create new item</button>
-        </p>
-    </div>
+        <button onclick="@CreateItem()">Create new item</button>
+    </p>
+    <p>
+        <button onclick="@AddMore()">Already existing item</button>
+    </p>
+</div>
 
 
 
@@ -55,10 +58,16 @@
     private float Height { get; set; }
     private string Description { get; set; }
     private int Stock { get; set; }
-    
+
     public async Task CreateItem()
     {
         CustomHTTPRequests requests = new CustomHTTPRequests();
-        await requests.PostConfirmation(item);
+        await requests.PostNewItem(item);
+    }
+
+    public async Task AddMore()
+    {
+        CustomHTTPRequests requests = new CustomHTTPRequests();
+        await requests.PostAddMoreItem(Id, Stock);
     }
 }
