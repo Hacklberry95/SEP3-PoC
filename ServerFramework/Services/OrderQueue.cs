@@ -66,28 +66,22 @@ namespace ServerFramework.Services
         /// <summary>
         /// This method returns the order which is first in the queue.
         /// </summary>
-        /// <returns>First.</returns>
+        /// <returns>First order's id or -1.</returns>
         public int Dequeue()
         {
             if (hQueue.Count > 0)
             {
                 int res = hQueue[0];
-                int[] eee = new int[hQueue.Count];
-                hQueue.CopyTo(eee, 1);
-                List<int> tmp1 = new List<int>(eee);
-                hQueue = tmp1;
+                hQueue.Remove(res);
                 return res;
             }
-            else
+            else if (nQueue.Count > 0)
             {
                 int res = nQueue[0];
-                int[] eee = new int[nQueue.Count];
-                nQueue.CopyTo(eee, 1);
-                List<int> tmp1 = new List<int>(eee);
-                nQueue = tmp1;
+                nQueue.Remove(res);
                 return res;
             }
-
+            else return -1;
         }
 
         /// <summary>
@@ -105,14 +99,13 @@ namespace ServerFramework.Services
             {
                 return nQueue[pos - hQueue.Count];
             }
-
         }
 
         /// <summary>
-        /// This method is to returns the index of the given order in the queue.
+        /// This method returns the index of the given order in the queue.
         /// </summary>
         /// <param name="OrderId">The ID of the order.</param>
-        /// <returns>-1</returns>
+        /// <returns>-1 or the position of the order in the queue.</returns>
         public int Contains(int OrderId)
         {
             if (hQueue.Contains(OrderId))
@@ -121,10 +114,9 @@ namespace ServerFramework.Services
             }
             else if (nQueue.Contains(OrderId))
             {
-                return nQueue.IndexOf(OrderId);
+                return (nQueue.IndexOf(OrderId) + hQueue.Count);
             }
-
-            return -1;
+            else return -1;
         }
     }
 }

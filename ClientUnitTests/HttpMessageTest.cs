@@ -18,8 +18,8 @@ namespace ClientUnitTests
         public void Setup(List<Item> items)
         {
             requests = new CustomHTTPRequests();
-            o1 = new Order(items);
-            o2 = new Order(items);
+            o1 = new Order(items, null);
+            o2 = new Order(items, null);
         }
 
         [Test]
