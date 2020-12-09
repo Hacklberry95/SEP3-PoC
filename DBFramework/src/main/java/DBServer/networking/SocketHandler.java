@@ -1,6 +1,7 @@
 package DBServer.networking;
 
 import DBServer.Services.IPoolService;
+import SQL.ISQLQueryInterpreter;
 import org.eclipse.jetty.util.IO;
 
 import java.io.*;
@@ -8,21 +9,20 @@ import java.net.Socket;
 
 public class SocketHandler implements Runnable
 {
-    IPoolService poolService;
     private Socket socket;
     private ObjectOutputStream outToClient;
     private ObjectInputStream inFromClient;
-
-    public SocketHandler(Socket socket) {
+    private ISQLQueryInterpreter isqlQueryInterpreter;
+    public SocketHandler(Socket socket, ISQLQueryInterpreter sqlInterpreter, ConnectionPool connectionPool) {
         this.socket = socket;
-
+        isqlQueryInterpreter = sqlInterpreter;
         try {
             inFromClient = new ObjectInputStream(socket.getInputStream());
             outToClient = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        poolService.addHandler(this);
+        connectionPool.addHandler(this);
     }
 
     @Override

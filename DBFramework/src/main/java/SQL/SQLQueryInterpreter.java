@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class SQLQueryInterpreter
+public class SQLQueryInterpreter implements ISQLQueryInterpreter
 {
     private Connection c;
     private ArrayList<Integer> intArr;
