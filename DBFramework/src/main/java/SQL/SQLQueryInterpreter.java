@@ -2,6 +2,7 @@ package SQL;
 
 import DBServer.Data.Item;
 import DBServer.Data.Order;
+import DBServer.Data.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -90,4 +91,14 @@ public class SQLQueryInterpreter
                 new ArrayList<Integer>(Arrays.asList((Integer[]) rs.getArray("\"itemCounts\"").getArray())));
         return order;
     }
+
+    public User getUserById(int id, String password) throws SQLException
+    {
+        String query = "SELECT * FROM user WHERE (id = " + id + ")";
+        Statement st = c.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        User user = new User(rs.getString("username"), rs.getString("password"));
+        return user;
+    }
+
 }

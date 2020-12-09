@@ -30,12 +30,7 @@ public class SocketHandler implements Runnable
     {
         while (true)
         {
-            //call something from dbservice or whatever idc
-            //string response = bigMethodFromDBServiceOrWhatever(rec(inFromClient))
-            //if(response != null)
-            //{
-            //    trans(response);
-            //}
+
         }
     }
     private String rec(InputStream is) throws IOException
