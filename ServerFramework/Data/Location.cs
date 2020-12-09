@@ -37,6 +37,5 @@ namespace ServerFramework.Data
         {
             return area + "-" + line + "-" + number;
         }
-
     }
 }
