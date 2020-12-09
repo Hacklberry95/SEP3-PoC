@@ -92,9 +92,9 @@ public class SQLQueryInterpreter
         return order;
     }
 
-    public User getUserById(int id, String password) throws SQLException
+    public User getUserById(String username) throws SQLException
     {
-        String query = "SELECT * FROM user WHERE (id = " + id + ")";
+        String query = "SELECT * FROM user WHERE (username = " + username + ")";
         Statement st = c.createStatement();
         ResultSet rs = st.executeQuery(query);
         User user = new User(rs.getString("username"), rs.getString("password"));
