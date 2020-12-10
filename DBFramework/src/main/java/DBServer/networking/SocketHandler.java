@@ -2,10 +2,12 @@ package DBServer.networking;
 
 import DBServer.Services.IPoolService;
 import SQL.ISQLQueryInterpreter;
+import com.google.gson.Gson;
 import org.eclipse.jetty.util.IO;
 
 import java.io.*;
 import java.net.Socket;
+import java.sql.SQLException;
 
 public class SocketHandler implements Runnable
 {
@@ -28,9 +30,25 @@ public class SocketHandler implements Runnable
     @Override
     public void run()
     {
+        Gson gson = new Gson();
+
         while (true)
         {
-
+            try
+            {
+                String type = determineType(rec(inFromClient))[0];
+                String message = determineType(rec(inFromClient))[1];
+                switch (type)
+                {
+                    case "loginInfo" :
+                    {
+                        String returnData = "userInfo" + "@" + gson.toJson(isqlQueryInterpreter.getUserById(message));
+                        trans(returnData,outToClient);
+                    }
+                }
+            } catch (IOException | SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     private String rec(InputStream is) throws IOException
@@ -58,5 +76,9 @@ public class SocketHandler implements Runnable
         toSendLenBytes[3] = (byte)((toSendLen >> 24) & 0xff);
         os.write(toSendLenBytes);
         os.write(toSendBytes);
+    }
+    private String[] determineType(String msg)
+    {
+        return msg.split("@");
     }
 }
