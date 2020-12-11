@@ -3,6 +3,7 @@ package SQL;
 import DBServer.Data.Item;
 import DBServer.Data.Order;
 import DBServer.Data.User;
+import DBServer.networking.SocketHandler;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -75,7 +76,6 @@ public class SQLQueryInterpreter
         String query = "SELECT * FROM item WHERE (id = " + id + ");";
         Statement st = c.createStatement();
         ResultSet rs = st.executeQuery(query);
-        //write rs.getObject statements in Item creation
         Item item = new Item(rs.getString("name"), rs.getFloat("weight"), rs.getFloat("width"),
         rs.getFloat("length"), rs.getFloat("height"), rs.getString("description"));
         return item;

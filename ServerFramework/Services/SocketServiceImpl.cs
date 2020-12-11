@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ServerFramework.Data;
+using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ServerFramework.Services
@@ -61,6 +63,33 @@ namespace ServerFramework.Services
             clientSocket.Send(toSendLenBytes);
             clientSocket.Send(toSendBytes);
             clientSocket.Close();
+        }
+
+        public void AddNewItem(string itemJson)
+        {
+            string transmit = "NewItem@" + itemJson;
+            JustTransmit(transmit);
+        }
+
+        public Item GetItem(string jsonId)
+        {
+            string transmit = "GetItem@" + jsonId;
+            string message = TransmitAndReturnResponse(transmit);
+            string[] arr = message.Split('@');
+            if (arr[0].Equals("GetItem"))
+            {
+                try
+                {
+                    Item item = JsonSerializer.Deserialize<Item>(arr[1]);
+                    return item;
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                    return null;
+                }
+            }
+            else return null;
         }
     }
 }

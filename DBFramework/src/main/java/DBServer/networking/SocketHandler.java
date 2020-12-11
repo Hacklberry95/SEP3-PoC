@@ -1,10 +1,15 @@
 package DBServer.networking;
 
+import DBServer.Data.*;
 import DBServer.Services.IPoolService;
+import SQL.SQLQueryInterpreter;
+import com.google.gson.Gson;
+import com.google.gson.JsonDeserializer;
 import org.eclipse.jetty.util.IO;
 
 import java.io.*;
 import java.net.Socket;
+import java.sql.SQLException;
 
 public class SocketHandler implements Runnable
 {
@@ -30,7 +35,23 @@ public class SocketHandler implements Runnable
     {
         while (true)
         {
-
+            try
+            {
+                String received = rec(inFromClient);
+                String[] arr = received.split("@");
+                if(arr[0].equals("GetItem"))
+                {
+                    Gson gson = new Gson();
+                    int id = 0;
+                    String number = gson.fromJson(arr[1], String.class);
+                    id = Integer.parseInt(number);
+                    GetItem(id);
+                }
+            }
+            catch (IOException | SQLException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
     
@@ -60,5 +81,19 @@ public class SocketHandler implements Runnable
         toSendLenBytes[3] = (byte)((toSendLen >> 24) & 0xff);
         os.write(toSendLenBytes);
         os.write(toSendBytes);
+    }
+
+    public void GetItem(int id) throws IOException, SQLException
+    {
+        SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
+        Item item = interpreter.getItem(id);
+        Gson gson = new Gson();
+        String json = gson.toJson(item);
+        String transmit = "";
+        if(item.getName() != null)
+        {
+            transmit = "GetItem@" + json;
+        }
+        trans(transmit, outToClient);
     }
 }

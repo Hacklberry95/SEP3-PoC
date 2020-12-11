@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using ServerFramework.Authorization;
 using ServerFramework.Authorization.AuthRoles;
 using ServerFramework.Data;
+using ServerFramework.Services;
 
 namespace ServerFramework.Logic
 {
@@ -18,11 +20,14 @@ namespace ServerFramework.Logic
         /// <summary>
         /// Adds new item in the DB.
         /// </summary>
-        public void AddNewItem()
+        /// <param name="item">The item to be added to the DB.</param>
+        public void AddNewItem(Item item)
         {
             if (user.Roles.OfType<InboundManager>().Any())
             {
-                //Database upload comes here
+                SocketServiceImpl socket = new SocketServiceImpl();
+                string json = JsonSerializer.Serialize<Item>(item);
+                socket.AddNewItem(json);
             }
         }
 
@@ -52,7 +57,10 @@ namespace ServerFramework.Logic
 
         public Item GetItem(string id)
         {
-            return null;
+            SocketServiceImpl socket = new SocketServiceImpl();
+            string json = JsonSerializer.Serialize<string>(id);
+            Item item = socket.GetItem(json);
+            return item;
         }
 
         /// <summary>
