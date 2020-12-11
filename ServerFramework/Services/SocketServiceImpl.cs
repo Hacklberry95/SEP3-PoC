@@ -7,12 +7,16 @@ namespace ServerFramework.Services
 {
     public class SocketServiceImpl : ISocketService
     {
-        public async Task<string> TransmitAndReturnResponse(string jsonifiedObject)
+        /// <summary>
+        /// Transmits through sockets and returns a string. 
+        /// USAGE: String format: "type@message" (use @ as separator char between type and message). Message is JSON object.
+        /// </summary>
+        /// <param name="jsonifiedObject">See string format above. The string to be sent to DB server.</param>
+        /// <returns>The received string (as a Task, since it is async).</returns>
+        public string TransmitAndReturnResponse(string jsonifiedObject)
         {
             string toSend = jsonifiedObject;
-
             IPEndPoint serverAddress = new IPEndPoint(IPAddress.Parse("192.168.0.6"), 4343);
-
             Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             clientSocket.Connect(serverAddress);
 
@@ -37,12 +41,16 @@ namespace ServerFramework.Services
             return rcv;
         }
 
-        public Task JustTransmit(string jsonifiedObject)
+        /// <summary>
+        /// Transmits a message to DB server without returning an item.
+        /// USAGE: String format: "type@message" (use @ as separator char between type and message). Message is JSON object.
+        /// </summary>
+        /// <param name="jsonifiedObject">See string format above. The string to be sent to DB server.</param>
+        /// <returns>Returns an empty Task.</returns>
+        public void JustTransmit(string jsonifiedObject)
         {
             string toSend = jsonifiedObject;
-
             IPEndPoint serverAddress = new IPEndPoint(IPAddress.Parse("192.168.0.6"), 4343);
-
             Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             clientSocket.Connect(serverAddress);
 
@@ -53,7 +61,6 @@ namespace ServerFramework.Services
             clientSocket.Send(toSendLenBytes);
             clientSocket.Send(toSendBytes);
             clientSocket.Close();
-            return null;
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using ServerFramework.Authorization;
 using ServerFramework.Authorization.AuthRoles;
@@ -49,22 +50,28 @@ namespace ServerFramework.Logic
             }
         }
 
+        public Item GetItem(string id)
+        {
+            return null;
+        }
+
         /// <summary>
         /// This method would move the given amount of damaged items to another table in the DB.
         /// </summary>
         /// <param name="id">Item ID.</param>
         public void MarkItemAsDamaged(string id)
         {
-            
+            //stock--, damaged++
         }
 
         /// <summary>
         /// This method will handle the returned orders, which can be broken down to items.
         /// </summary>
-        /// <param name="order">Order ID.</param>
-        public void ReturnItems(Order order)
+        /// <param name="itemIDs">The list of items to return.</param>
+        /// <param name="itemCounts">The amount of items to return per any type.</param>
+        public void ReturnItems(List<int> itemIDs, List<int> itemCounts)
         {
-            
+            //foreach, iterate, add back to list
         }
     }
 }
