@@ -21,8 +21,8 @@ namespace ServerFramework.Authorization
             this.jsRuntime = jsRuntime;
             this.socketServiceImpl = socketServiceImpl;
         }
-        
-        
+
+
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var identity = new ClaimsIdentity();
@@ -40,32 +40,39 @@ namespace ServerFramework.Authorization
                     identity = SetupClaimsForUser(cachedUser);
                 }
             }
+
             ClaimsPrincipal cachedClaimsPrincipal = new ClaimsPrincipal(identity);
             return await Task.FromResult(new AuthenticationState(cachedClaimsPrincipal));
         }
 
-        private ClaimsIdentity SetupClaimsForUser(User user) {
+        private ClaimsIdentity SetupClaimsForUser(User user)
+        {
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim("Role", user.Roles.ToString()));
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, "apiauth_type");
             return identity;
         }
-        
-        public void ValidateLogin(string username, string password) {
+
+        public void ValidateLogin(string username, string password)
+        {
             Console.WriteLine("Validating log in");
             if (string.IsNullOrEmpty(username)) throw new Exception("Enter username");
             if (string.IsNullOrEmpty(password)) throw new Exception("Enter password");
 
             ClaimsIdentity identity = new ClaimsIdentity();
-            try {
+            try
+            {
                 User user = socketServiceImpl.ValidateUser(username, password);
                 identity = SetupClaimsForUser(user);
                 string serialisedData = JsonSerializer.Serialize(user);
                 jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serialisedData);
                 cachedUser = user;
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 throw e;
             }
+        }
     }
 }

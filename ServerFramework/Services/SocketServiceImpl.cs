@@ -2,12 +2,13 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using ServerFramework.Authorization;
 
 namespace ServerFramework.Services
 {
     public class SocketServiceImpl : ISocketService
     {
-        public async Task<string> TransmitAndReturnResponse(string jsonifiedObject)
+        public string TransmitAndReturnResponse(string jsonifiedObject)
         {
             string toSend = jsonifiedObject;
 
@@ -37,7 +38,7 @@ namespace ServerFramework.Services
             return rcv;
         }
 
-        public Task JustTransmit(string jsonifiedObject)
+        public void JustTransmit(string jsonifiedObject)
         {
             string toSend = jsonifiedObject;
 
@@ -53,12 +54,11 @@ namespace ServerFramework.Services
             clientSocket.Send(toSendLenBytes);
             clientSocket.Send(toSendBytes);
             clientSocket.Close();
-            return null;
         }
 
-        public Task ValidateUser(string username, string password)
+        public User ValidateUser(string username, string password)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

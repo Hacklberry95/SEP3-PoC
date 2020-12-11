@@ -1,12 +1,13 @@
 ﻿using System.Threading.Tasks;
+using ServerFramework.Authorization;
 
 namespace ServerFramework.Services
 {
     public interface ISocketService
     {
-        Task<string> TransmitAndReturnResponse(string jsonifiedObject);
-        Task JustTransmit(string jsonifiedObject);
+        string TransmitAndReturnResponse(string jsonifiedObject);
+        void JustTransmit(string jsonifiedObject);
 
-        Task ValidateUser(string username, string password);
+        User ValidateUser(string username, string password);
     }
 }
