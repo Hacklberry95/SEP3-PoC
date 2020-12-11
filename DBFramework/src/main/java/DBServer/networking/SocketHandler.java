@@ -33,6 +33,7 @@ public class SocketHandler implements Runnable
 
         }
     }
+    
     private String rec(InputStream is) throws IOException
     {
         //stolen from stack overflow
@@ -46,6 +47,7 @@ public class SocketHandler implements Runnable
         String received = new String(receivedBytes, 0, len);
         return received;
     }
+
     private void trans(String msg, OutputStream os) throws IOException
     {
         String toSend = msg;
