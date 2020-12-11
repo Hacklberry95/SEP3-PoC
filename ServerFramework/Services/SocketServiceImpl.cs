@@ -55,5 +55,10 @@ namespace ServerFramework.Services
             clientSocket.Close();
             return null;
         }
+
+        public Task ValidateUser(string username, string password)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

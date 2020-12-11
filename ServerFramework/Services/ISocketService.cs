@@ -6,5 +6,7 @@ namespace ServerFramework.Services
     {
         Task<string> TransmitAndReturnResponse(string jsonifiedObject);
         Task JustTransmit(string jsonifiedObject);
+
+        Task ValidateUser(string username, string password);
     }
 }
