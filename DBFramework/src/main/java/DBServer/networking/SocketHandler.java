@@ -47,6 +47,26 @@ public class SocketHandler implements Runnable
                     id = Integer.parseInt(number);
                     GetItem(id);
                 }
+                else if(arr[0].equals("EditItem"))
+                {
+                    Gson gson = new Gson();
+                    Item item = gson.fromJson(arr[1], Item.class);
+                    EditItem(item);
+                }
+                else if(arr[0].equals("RemoveItem"))
+                {
+                    Gson gson = new Gson();
+                    int id = 0;
+                    String number = gson.fromJson(arr[1], String.class);
+                    id = Integer.parseInt(number);
+                    RemoveItem(id);
+                }
+                else if(arr[0].equals("MarkItemAsDamaged"))
+                {
+                    Gson gson = new Gson();
+                    Item item = gson.fromJson(arr[1], Item.class);
+                    MarkItemAsDamaged(item);
+                }
             }
             catch (IOException | SQLException e)
             {
@@ -95,5 +115,23 @@ public class SocketHandler implements Runnable
             transmit = "GetItem@" + json;
         }
         trans(transmit, outToClient);
+    }
+
+    public void EditItem(Item item) throws SQLException
+    {
+        SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
+        interpreter.updateItem(item);
+    }
+
+    public void RemoveItem(int id) throws IOException, SQLException
+    {
+        SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
+        interpreter.removeItem(id);
+    }
+
+    public void MarkItemAsDamaged(Item item) throws IOException, SQLException
+    {
+        SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
+        //Removes from the stock table and moves the item to the damaged table
     }
 }
