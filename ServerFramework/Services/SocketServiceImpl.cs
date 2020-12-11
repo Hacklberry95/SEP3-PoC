@@ -2,6 +2,7 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -109,5 +110,45 @@ namespace ServerFramework.Services
             string transmit = "MarkItemAsDamaged@" + jsonId;
             JustTransmit(transmit);
         }
+
+        public Location GetLocation(string jsonId)
+        {
+            string transmit = "GetLocation@" + jsonId;
+            string message = TransmitAndReturnResponse(transmit);
+            string[] arr = message.Split('@');
+            if (arr[0].Equals("GetLocation"))
+            {
+                try
+                {
+                    Location location = JsonSerializer.Deserialize<Location>(arr[1]);
+                    return location;
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                    return null;
+                }
+            }
+            else return null;
+        }
+        
+        public void CreateLocation(string jsonId)
+        {
+            string transmit = "CreateLocation@" + jsonId;
+            JustTransmit(transmit);
+        }
+
+        public void DeleteLocation(string jsonId)
+        {
+            string transmit = "DeleteLocation@" + jsonId;
+            JustTransmit(transmit);
+        }
+        
+        public void UpdateLocation(string locJson)
+        {
+            string transmit = "UpdateLocation@" + locJson;
+            JustTransmit(transmit);
+        }
+
     }
 }
