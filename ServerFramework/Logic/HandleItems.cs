@@ -34,27 +34,36 @@ namespace ServerFramework.Logic
         /// <summary>
         /// This method is to edit a present item in the DB.
         /// </summary>
-        /// <param name="id">Item ID.</param>
-        public void EditItem(string id)
+        /// <param name="item">Item object.</param>
+        public void EditItem(Item item)
         {
             if (user.Roles.OfType<InboundManager>().Any())
             {
-                //Database upload comes here
+                SocketServiceImpl socket = new SocketServiceImpl();
+                string json = JsonSerializer.Serialize<Item>(item);
+                socket.EditItem(json);
             }
         }
 
         /// <summary>
         /// Removes an item by ID from the DB.
         /// </summary>
-        /// <param name="id">Item ID.</param>
-        public void RemoveItem(string id)
+        /// <param name="item">Item object.</param>
+        public void RemoveItem(Item item)
         {
             if (user.Roles.OfType<InboundManager>().Any())
             {
-                //Database upload comes here
+                SocketServiceImpl socket = new SocketServiceImpl();
+                string json = JsonSerializer.Serialize<Item>(item);
+                socket.RemoveItem(json);
             }
         }
 
+        /// <summary>
+        /// Get method for item.
+        /// </summary>
+        /// <param name="id">Item ID.</param>
+        /// <returns>An Item object.</returns>
         public Item GetItem(string id)
         {
             SocketServiceImpl socket = new SocketServiceImpl();
@@ -69,7 +78,12 @@ namespace ServerFramework.Logic
         /// <param name="id">Item ID.</param>
         public void MarkItemAsDamaged(string id)
         {
-            //stock--, damaged++
+            if (user.Roles.OfType<InboundManager>().Any())
+            {
+                SocketServiceImpl socket = new SocketServiceImpl();
+                string json = JsonSerializer.Serialize<string>(id);
+                socket.MarkItemAsDamaged(json);
+            }
         }
 
         /// <summary>
