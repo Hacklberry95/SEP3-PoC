@@ -91,5 +91,23 @@ namespace ServerFramework.Services
             }
             else return null;
         }
+
+        public void EditItem(string itemJson)
+        {
+            string transmit = "EditItem@" + itemJson;
+            JustTransmit(transmit);
+        }
+
+        public void RemoveItem(string jsonId)
+        {
+            string transmit = "RemoveItem@" + jsonId;
+            JustTransmit(transmit);
+        }
+
+        public void MarkItemAsDamaged(string jsonId)
+        {
+            string transmit = "MarkItemAsDamaged@" + jsonId;
+            JustTransmit(transmit);
+        }
     }
 }
