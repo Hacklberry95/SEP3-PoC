@@ -1,0 +1,45 @@
+﻿@page "/Picker"
+@inject NavigationManager NavigationManager;
+
+<h3>Picking</h3>
+<div class="pickingContainer">
+    
+    <p>
+        <label>Location: </label><input readonly id="locationId">
+    </p>
+    <p>
+        <label>Item: </label><input readonly id="itemName">
+    </p>
+    <p>
+        <label>Quantity: </label><input  readonly  id="itemQuantity">
+    </p>
+    <p>
+        <label>ConfirmQuantity: </label><input type="number" name="quantityConfirmation" @bind-value="quantityConfirm" @bind-value:event="onchange">
+    </p>
+</div>
+
+
+<button onclick="@CutPick()" class="cutButton">CUT</button>
+<button onclick="@ConfirmPick()" class="confirmButton">CONFIRM</button>
+<button onclick="@SkipPick()" class="skipButton">SKIP</button>
+
+@code {
+
+    private int quantityConfirm;
+    
+    private async Task ConfirmPick()
+    {
+        
+    }
+
+    private async Task CutPick()
+    {
+        
+    }
+
+    private async Task SkipPick()
+    {
+        
+    }
+    
+}

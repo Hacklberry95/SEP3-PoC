@@ -65,20 +65,6 @@ namespace ServerFramework.Controllers
                 return StatusCode(500, e.Message);
             }
         }
-/*
-        [HttpPost]
-        public async Task<ActionResult> PostConfirmation(int itemId)
-        {
-            try
-            {
-                await client.ReceiveItem(itemId);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return StatusCode(500, e.Message);
-            }
-        }*/
+        
     }
 }

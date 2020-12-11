@@ -53,6 +53,7 @@ namespace ClientFramework.REST
             if (message.IsSuccessStatusCode) return message;
             else return null;
         }
+        
         public async Task<HttpResponseMessage> PostAddMoreItem(int id, int count)
         {
             HttpClient client = new HttpClient();
@@ -85,7 +86,7 @@ namespace ClientFramework.REST
             Uri webService = new Uri("");
             string jsonString = "";
             jsonString = await client.GetStringAsync(webService);
-            Order order = new Order(null);
+            Order order = new Order(null, null);
             order = (Order) JsonSerializer.Deserialize(jsonString, order.GetType());
             return order;
         }

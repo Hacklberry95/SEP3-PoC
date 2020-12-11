@@ -9,6 +9,7 @@ namespace ClientFramework.Data
     /// <summary>
     /// Class to store persons. Stores name, id, and authorization roles.
     /// </summary>
+    [Obsolete]
     public class Person
     {
         private readonly string firstName, lastName;

@@ -6,10 +6,15 @@
 
 <img src="~/css/img/logo.png" alt="Company logo" class="company-logo main-menu-logo">
 
-<p>Username: <input @bind-value="username"></p>
-<p>Password: <input @bind-value="password"></p>
+<p>
+    <label>Username: </label><input @bind-value="username">
+</p>
+<p>
+    <label>Password: </label><input @bind-value="password">
+</p>
 
 <button onclick="@Login()">Login</button>
+
 
 @code {
     private string username;

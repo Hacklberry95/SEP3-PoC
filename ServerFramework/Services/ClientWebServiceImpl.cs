@@ -42,12 +42,14 @@ namespace ServerFramework.Services
             await httpClient.PostAsync(DataURI, content);
         }
 
-        public async Task getOrder()
+        /*public async Task getOrder(int id)
         {
             HttpClient httpClient = new HttpClient();
             Uri DataURI = new Uri("http://localhost:5001/ServerFramework/api/dataControl");
-            await httpClient.GetAsync(DataURI, )
-        }
-        
+            string serial = JsonSerializer.Serialize(id, id.GetType());
+            StringContent content = new StringContent(serial);
+            await httpClient.GetAsync(DataURI, content);
+            //lost with this method
+        }*/
     }
 }

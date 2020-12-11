@@ -188,3 +188,12 @@ app {
     height: auto;
     display: block;
 }
+.confirmButton {
+    width:180px;
+    height:120px;
+}
+label{
+    display: block;
+    float: left;
+    width : 140px;
+}
