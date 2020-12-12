@@ -19,11 +19,10 @@ namespace ServerFramework.Logic
         /// </summary>
         /// <param name="userParam">User parameter.</param>
         /// <param name="username">Username.</param>
-        public void AddUser(User userParam, string username)
+        public void AddUser(User userParam)
         {
             if (user.Roles.OfType<PickingManager>().Any())
             {
-                GetUser(username);
                 SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Serialize<User>(userParam);
                 socket.AddUser(json);
