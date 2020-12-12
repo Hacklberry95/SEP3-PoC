@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ServerFramework.Authorization;
 
 namespace ServerFramework.Services
 {
@@ -150,5 +151,49 @@ namespace ServerFramework.Services
             JustTransmit(transmit);
         }
 
+        public User GetUser(string jsonId)
+        {
+            string transmit = "GetUser@" + jsonId;
+            string message = TransmitAndReturnResponse(transmit);
+            string[] arr = message.Split('@');
+            if (arr[0].Equals("GetUser"))
+            {
+                try
+                {
+                    User user = JsonSerializer.Deserialize<User>(arr[1]);
+                    return user;
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                    return null;
+                }
+            }
+            else return null;
+        }
+
+        public void AddUser(string userJson)
+        {
+            string transmit = "AddUser@" + userJson;
+            JustTransmit(transmit);
+        }
+        
+        public void RemoveUser(string jsonId)
+        {
+            string transmit = "RemoveUser@" + jsonId;
+            JustTransmit(transmit);
+        }
+        
+        public void UpdateUser(string userJson)
+        {
+            string transmit = "UpdateUser@" + userJson;
+            JustTransmit(transmit);
+        }
+
+        public void DeleteOrder(string jsonId)
+        {
+            string transmit = "DeleteOrder@" + jsonId;
+            JustTransmit(transmit);
+        }
     }
 }
