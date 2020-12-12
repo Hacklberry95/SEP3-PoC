@@ -10,6 +10,7 @@ import org.eclipse.jetty.util.IO;
 import java.io.*;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SocketHandler implements Runnable
 {
@@ -67,6 +68,79 @@ public class SocketHandler implements Runnable
                     Item item = gson.fromJson(arr[1], Item.class);
                     MarkItemAsDamaged(item);
                 }
+                else if(arr[0].equals("AddItem"))
+                {
+                    Gson gson = new Gson();
+                    Item item = gson.fromJson(arr[1], Item.class);
+                    AddItem(item);
+                }
+                else if(arr[0].equals("ReturnItems"))
+                {
+                    Gson gson = new Gson();
+                    //figure out list deserialize
+                }
+                else if(arr[0].equals("GetOrder"))
+                {
+                    Gson gson = new Gson();
+                    int id = 0;
+                    String number = gson.fromJson(arr[1], String.class);
+                    id = Integer.parseInt(number);
+                    GetOrder(id);
+                }
+                else if(arr[0].equals("FinalizePick"))
+                {
+                    Gson gson = new Gson();
+                    int orderID = gson.fromJson(arr[1], Integer.class);
+                    FinalizePick(orderID);
+                }
+                else if(arr[0].equals("CancelOrder"))
+                {
+                    Gson gson = new Gson();
+                    int orderID = gson.fromJson(arr[1], Integer.class);
+                    CancelOrder(orderID);
+                }
+                else if(arr[0].equals("CutItem"))
+                {
+                    //write json transform
+                    Gson gson = new Gson();
+                    //int orderID = gson.fromJson(arr[1], Integer.class);
+                    CutItem(0, 0, 0);
+                }
+                else if(arr[0].equals("AllocPutaway"))
+                {
+                    //write json transform
+                    Gson gson = new Gson();
+                    AllocPutaway("", 0);
+                }
+                else if(arr[0].equals("GetLocation"))
+                {
+                    Gson gson = new Gson();
+                    int id = 0;
+                    String number = gson.fromJson(arr[1], String.class);
+                    id = Integer.parseInt(number);
+                    GetLocation(id);
+                }
+                else if(arr[0].equals("UpdateLocation"))
+                {
+                    Gson gson = new Gson();
+                    Location loc = gson.fromJson(arr[1], Location.class);
+                    UpdateLocation(loc);
+                }
+                else if(arr[0].equals("DeleteLocation"))
+                {
+                    Gson gson = new Gson();
+                    int id = 0;
+                    String number = gson.fromJson(arr[1], String.class);
+                    id = Integer.parseInt(number);
+                    DeleteLocation(id);
+                }
+                else if(arr[0].equals("AddLocation"))
+                {
+                    Gson gson = new Gson();
+                    Location loc = gson.fromJson(arr[1], Location.class);
+                    AddLocation(loc);
+                }
+
             }
             catch (IOException | SQLException e)
             {
@@ -74,7 +148,7 @@ public class SocketHandler implements Runnable
             }
         }
     }
-    
+
     private String rec(InputStream is) throws IOException
     {
         //stolen from stack overflow
@@ -129,9 +203,85 @@ public class SocketHandler implements Runnable
         interpreter.removeItem(id);
     }
 
+    public void AddItem(Item item) throws SQLException
+    {
+        SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
+        interpreter.addItem(item);
+    }
+
     public void MarkItemAsDamaged(Item item) throws IOException, SQLException
     {
         SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
         //Removes from the stock table and moves the item to the damaged table
+    }
+
+    public void GetOrder(int id) throws IOException, SQLException
+    {
+        SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
+        Order order = interpreter.getOrderById(id);
+        Gson gson = new Gson();
+        String json = gson.toJson(order);
+        String transmit = "";
+        if (order.getOrderState() != -1)
+        {
+            transmit = "GetOrder@" + json;
+        }
+        trans(transmit, outToClient);
+    }
+
+    public void FinalizePick(int orderID) throws SQLException
+    {
+        SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
+        interpreter.finalizePick(orderID);
+    }
+
+    public void CancelOrder(int id) throws SQLException
+    {
+        SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
+        interpreter.cancelOrder(id);
+    }
+
+    public void CutItem(int id, int itemID, int itemCount) throws SQLException
+    {
+        SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
+        interpreter.cutFromOrder(id, itemID, itemCount);
+    }
+
+    public void AllocPutaway(String locationID, int itemID) throws SQLException
+    {
+        SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
+        interpreter.allocPutaway(locationID, itemID);
+    }
+
+    private void UpdateLocation(Location loc) throws SQLException
+    {
+        SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
+        interpreter.updateLocation(loc);
+    }
+
+    private void DeleteLocation(int id) throws SQLException
+    {
+        SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
+        interpreter.deleteLocation(id);
+    }
+
+    private void AddLocation(Location loc) throws SQLException
+    {
+        SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
+        interpreter.addLocation(loc);
+    }
+
+    private void GetLocation(int id) throws SQLException, IOException
+    {
+        SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
+        Location loc = interpreter.getLocation(id);
+        Gson gson = new Gson();
+        String json = gson.toJson(loc);
+        String transmit = "";
+        if (!loc.getId().equals(""))
+        {
+            transmit = "GetLocation@" + json;
+        }
+        trans(transmit, outToClient);
     }
 }
