@@ -8,7 +8,7 @@ using ClientFramework.Authorization;
 
 namespace ClientFramework.REST
 {
-    public class CustomHTTPRequests : ILoginService
+    public class CustomHTTPRequests : ICustomHttp
     {
         public async Task<HttpResponseMessage> PostConfirmation(int orderID)
         {

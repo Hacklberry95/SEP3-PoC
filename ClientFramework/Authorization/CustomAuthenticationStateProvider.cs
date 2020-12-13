@@ -12,10 +12,10 @@ namespace ClientFramework.Authorization
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
         private readonly IJSRuntime jsRuntime;
-        private readonly ILoginService userService;
+        private readonly ICustomHttp userService;
         private User cachedUser;
         
-        public CustomAuthenticationStateProvider(IJSRuntime jsRuntime, ILoginService userService)
+        public CustomAuthenticationStateProvider(IJSRuntime jsRuntime, ICustomHttp userService)
         {
             this.jsRuntime = jsRuntime;
             this.userService = userService;
