@@ -20,7 +20,7 @@ namespace ClientFramework.Authorization
             this.jsRuntime = jsRuntime;
             this.userService = userService;
         }
-        
+
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var identity = new ClaimsIdentity();

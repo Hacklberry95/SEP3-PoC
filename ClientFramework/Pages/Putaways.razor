@@ -1,0 +1,53 @@
+﻿@page "/Putaways"
+@using ClientFramework.Data
+
+<h3>Putaways</h3>
+
+
+<!--<p>
+<label>Locations: </label><div class="dropdown">
+    <button class="dropbtn">Dropdown</button>
+    <div class="dropdown-content">
+        // checking if the list is empty such as if (List.Count() > 0)
+        {
+        //look thru the list here such as foreach (var item in list)
+        foreach (var user in users)
+        {
+                                      
+        }
+        {
+        <a href="#">Link 1</a>
+        }
+        }
+    </div>
+</div>-->
+
+<p>
+    <label>ItemId: </label><input name="ItemId" @bind-value="itemId" @bind-value:event="onchange">
+</p>
+<p>
+    <label>Quantity: </label><input name="Quantity" @bind-value="quantity" @bind-value:event="onchange">
+</p>
+
+<p>
+    <button onclick="@AddToLocation()">Add to location</button>
+</p>
+<p>
+        <button onclick="@ReturnToMenu()">Return to Menu</button>
+    </p>
+
+@code {
+    private List<Location> locations;
+    private int itemId;
+    private int quantity;
+
+    public async Task AddToLocation()
+    {
+        
+    }
+
+    public async Task ReturnToMenu()
+    {
+        
+    }
+}

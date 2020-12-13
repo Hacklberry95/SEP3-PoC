@@ -1,0 +1,25 @@
+﻿@page "/NewOrder"
+<h3>New Order</h3>
+
+<h2>Would you like to take a new Order?</h2>
+
+<p>
+    <button onclick="@AcceptNewOrder()">CONFIRM</button>
+</p>
+<p>
+    <button onclick="@Decline()">CUT</button>
+</p>
+
+@code {
+
+    public async Task AcceptNewOrder()
+    {
+        //takes new order from DB
+    }
+
+    public async Task Decline()
+    {
+        //takes you back to menu
+    }
+    
+}
