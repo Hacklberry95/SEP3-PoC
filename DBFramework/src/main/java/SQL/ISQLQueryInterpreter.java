@@ -14,4 +14,5 @@ public interface ISQLQueryInterpreter {
     Item getItem(int id) throws SQLException;
     Order getOrderById(int id) throws SQLException;
     User getUserById(String username) throws SQLException;
+    boolean getUserBoolean(String username) throws SQLException;
 }

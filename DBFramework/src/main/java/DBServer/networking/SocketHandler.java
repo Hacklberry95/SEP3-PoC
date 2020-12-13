@@ -15,6 +15,9 @@ public class SocketHandler implements Runnable
     private ObjectOutputStream outToClient;
     private ObjectInputStream inFromClient;
     private ISQLQueryInterpreter isqlQueryInterpreter;
+
+
+
     public SocketHandler(Socket socket, ISQLQueryInterpreter sqlInterpreter, ConnectionPool connectionPool) {
         this.socket = socket;
         isqlQueryInterpreter = sqlInterpreter;
@@ -42,8 +45,11 @@ public class SocketHandler implements Runnable
                 {
                     case "loginInfo" :
                     {
-                        String returnData = "userInfo" + "@" + gson.toJson(isqlQueryInterpreter.getUserById(message));
-                        trans(returnData,outToClient);
+                        if(isqlQueryInterpreter.getUserBoolean(message))
+                        {
+                            String returnData = "userInfo" + "@" + gson.toJson(isqlQueryInterpreter.getUserById(message));
+                            trans(returnData, outToClient);
+                        }
                     }
                 }
             } catch (IOException | SQLException e) {
@@ -64,6 +70,7 @@ public class SocketHandler implements Runnable
         String received = new String(receivedBytes, 0, len);
         return received;
     }
+
     private void trans(String msg, OutputStream os) throws IOException
     {
         String toSend = msg;

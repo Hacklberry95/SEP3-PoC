@@ -101,4 +101,14 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
         return user;
     }
 
+    public boolean getUserBoolean(String username) throws SQLException
+    {
+        String query = "SELECT * FROM user WHERE (username = " + username + ")";
+        Statement st = c.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        User user = new User(rs.getString("username"), rs.getString("password"));
+        if(user.getUsername().equals(""))
+        return false;
+        else return true;
+    }
 }
