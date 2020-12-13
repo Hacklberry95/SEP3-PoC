@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Text.Json;
 using System.Threading.Tasks;
 using ServerFramework.Authorization;
 
 namespace ServerFramework.Services
 {
-    public class SocketServiceImpl : ISocketService
+    public class SocketServiceImpl : ISocketService 
     {
         public string TransmitAndReturnResponse(string jsonifiedObject)
         {
@@ -56,9 +57,22 @@ namespace ServerFramework.Services
             clientSocket.Close();
         }
 
-        public User ValidateUser(string username, string password)
+        public User ValidateUser(string username, string password) 
         {
-            return null;
+            string msg = "loginInfo" + "@" + username;
+            string responseMsg = TransmitAndReturnResponse(msg);
+            string[] responseMsgSplit = responseMsg.Split("@");
+            if (responseMsgSplit[0].Equals("userInfo"))
+            {
+                User tmpUser = JsonSerializer.Deserialize<User>(responseMsgSplit[1]);
+                if (tmpUser.Password == password)
+                {
+                    return tmpUser;
+                }
+                throw new Exception("Wrong password");
+                
+            }
+            throw new Exception("User not found");
         }
     }
 }
