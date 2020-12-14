@@ -78,7 +78,7 @@ namespace ServerFramework.Logic
         /// <param name="id">Item ID.</param>
         public void MarkItemAsDamaged(string id)
         {
-            if (user.Roles.OfType<InboundManager>().Any())
+            if (user.Roles.OfType<Troubleshooter>().Any())
             {
                 SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Serialize<string>(id);
@@ -89,11 +89,17 @@ namespace ServerFramework.Logic
         /// <summary>
         /// This method will handle the returned orders, which can be broken down to items.
         /// </summary>
-        /// <param name="itemIDs">The list of items to return.</param>
+        /// <param name="itemIDs">The ID of the given item to return.</param>
         /// <param name="itemCounts">The amount of items to return per any type.</param>
-        public void ReturnItems(List<int> itemIDs, List<int> itemCounts)
+        public void ReturnItems(int itemIDs, int itemCounts)
         {
-            //foreach, iterate, add back to list
+            if (user.Roles.OfType<Troubleshooter>().Any())
+            {
+                string intToJson = itemIDs + "#" + itemCounts;
+                SocketServiceImpl socket = new SocketServiceImpl();
+                string json = JsonSerializer.Serialize<string>(intToJson);
+                socket.ReturnItems(json);
+            }
         }
     }
 }

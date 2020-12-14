@@ -71,17 +71,16 @@ namespace ServerFramework.Logic
             }
         }
 
-        public void HandleCancelledOrder(int id)
-        {
-            LoadOrderToField(id);
-            //figure out how to do this
-        }
-
         public void LoadTruckOrder(int id)
         {
-            LoadOrderToField(id);
-            order.ChangeOrderState();
-            //post orderstate to database, update it
+            if (user.Roles.OfType<Loader>().Any())
+            {
+                LoadOrderToField(id);
+                order.ChangeOrderState();
+                SocketServiceImpl socket = new SocketServiceImpl();
+                string json = JsonSerializer.Serialize<int>(id);
+                socket.LoadTruckOrder(json);
+            }
         }
 
         public void QueueNewOrder(Order order, bool isHigh)

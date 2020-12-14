@@ -195,5 +195,17 @@ namespace ServerFramework.Services
             string transmit = "DeleteOrder@" + jsonId;
             JustTransmit(transmit);
         }
+        
+        public void LoadTruckOrder(string jsonId)
+        {
+            string transmit = "LoadTruckOrder@" + jsonId;
+            JustTransmit(transmit);
+        }
+        
+        public void ReturnItems(string jsonId)
+        {
+            string transmit = "ReturnItems@" + jsonId;
+            JustTransmit(transmit);
+        }
     }
 }

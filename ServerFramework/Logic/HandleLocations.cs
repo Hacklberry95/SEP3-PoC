@@ -89,7 +89,7 @@ namespace ServerFramework.Logic
         /// <param name="id">Location ID.</param>
         public void ReplenishLocation(string id)
         {
-            
+            // Impl needed
         }
 
         /// <summary>
