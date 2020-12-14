@@ -84,6 +84,7 @@ namespace ClientFramework.REST
         {
             //reeeeeeeeeeee
             //
+            Console.WriteLine("custtomhttprequest validate login");
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync($"https://localhost:5003/users?username={username}&password={password}");
             if (response.StatusCode == HttpStatusCode.OK)

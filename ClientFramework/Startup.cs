@@ -14,6 +14,7 @@ using ClientFramework.Data;
 using ClientFramework.Pages;
 using ClientFramework.REST;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace ClientFramework
 {
@@ -34,6 +35,8 @@ namespace ClientFramework
             services.AddServerSideBlazor();
             services.AddScoped<Outbound>();
             services.AddScoped<ICustomHttp,CustomHTTPRequests>();
+            services.AddScoped<CustomAuthenticationStateProvider>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

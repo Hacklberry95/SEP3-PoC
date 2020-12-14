@@ -2,7 +2,6 @@
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
-
 @using ClientFramework.REST
 @using ClientFramework.Authorization
 
@@ -27,7 +26,7 @@
             await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLogin(username, password);
             username = "";
             password = "";
-            NavigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo("/InboundManager");
         }
         catch (Exception e)
         {
