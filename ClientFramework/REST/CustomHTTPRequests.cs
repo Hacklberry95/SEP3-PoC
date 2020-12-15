@@ -95,5 +95,17 @@ namespace ClientFramework.REST
             } 
             throw new Exception("User not found");
         }
+        
+        public async Task<HttpResponseMessage> ConfirmPick(int itemId, int orderId)
+        {
+                HttpClient client = new HttpClient();
+                Uri webService = new Uri("");
+                string sendString = itemId.ToString() + "#" + orderId.ToString();
+                string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+                StringContent content = new StringContent(jsonString);
+                HttpResponseMessage message = await client.PostAsync(webService, content);
+                if (message.IsSuccessStatusCode) return message;
+                else return null;
+        }
     }
 }

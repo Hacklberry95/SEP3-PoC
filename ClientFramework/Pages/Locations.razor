@@ -1,0 +1,20 @@
+﻿@page "/Locations"
+<h3>Locations</h3>
+
+<form>
+    <h4>Add or remove locations (Area + Line + Number):</h4>
+    <label>Area: </label><input type="number" @bind-value="area">
+    <label>Line: </label><input type="number" @bind-value="line">
+    <label>Number: </label><input type="number" @bind-value="number">
+    <button type="submit" onclick="@AddLocation()">Add location</button>
+</form>
+@code {
+    private int area;
+    private int line;
+    private int number;
+
+    public async Task AddLocation()
+    {
+        //REST
+    }
+}

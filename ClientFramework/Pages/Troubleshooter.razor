@@ -1,0 +1,33 @@
+﻿@page "/Troubleshooter"
+@using ClientFramework.REST
+<h3>Troubleshooter</h3>
+
+<form>
+    <h4>Mark item as damaged (this cannot be reverted):</h4>
+    <label>Item ID: </label><input type="number" @bind-value="itemId">
+    <label>Amount to mark: </label><input type="number" @bind-value="itemCount">
+    <button type="submit" onclick="@MarkDamaged()">Confirm damaged</button>
+</form>
+<form>
+    <h4>Cancel order by ID (items will return on stock again): </h4>
+    <label>Order ID: </label><input type="number" @bind-value="orderId">
+    <button type="submit" onclick="@CancelOrder()">Confirm cancel</button>
+</form>
+    
+@code {
+    private int itemId;
+    private int itemCount;
+    private int orderId;
+    
+    public async Task MarkDamaged()
+    {
+        CustomHTTPRequests requests = new CustomHTTPRequests();
+        await requests.PostConfirmation(itemId);
+    }
+    
+    public async Task CancelOrder()
+    {
+        CustomHTTPRequests requests = new CustomHTTPRequests();
+        await requests.PostConfirmation(orderId);
+    }
+}

@@ -23,7 +23,12 @@ namespace ServerFramework.Logic
             {
                 GetLocationByFullId(id);
                 location.Item = item;
-                //Database connectivity comes here!!!
+                if (location.Checksum == 0)
+                {
+                    SocketServiceImpl socket = new SocketServiceImpl();
+                    string json = JsonSerializer.Serialize<Location>(location);
+                    //socket.AllocatePutaway(json);
+                }
             }
         }
         
