@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace ServerFramework.Services
 {
+    [Obsolete]
     interface DataWebService
     {
         Task ConfirmOrder(int orderId);

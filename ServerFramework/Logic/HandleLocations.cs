@@ -1,7 +1,9 @@
 using System.Linq;
+using System.Text.Json;
 using ServerFramework.Authorization;
 using ServerFramework.Authorization.AuthRoles;
 using ServerFramework.Data;
+using ServerFramework.Services;
 
 namespace ServerFramework.Logic
 {
@@ -21,7 +23,12 @@ namespace ServerFramework.Logic
             {
                 GetLocationByFullId(id);
                 location.Item = item;
-                //Database connectivity comes here!!!
+                if (location.Checksum == 0)
+                {
+                    SocketServiceImpl socket = new SocketServiceImpl();
+                    string json = JsonSerializer.Serialize<Location>(location);
+                    //socket.AllocatePutaway(json);
+                }
             }
         }
         
@@ -35,7 +42,9 @@ namespace ServerFramework.Logic
             {
                 GetLocationByFullId(id);
                 Location temp = location;
-                //Database upload comes here
+                SocketServiceImpl socket = new SocketServiceImpl();
+                string json = JsonSerializer.Deserialize<string>(id);
+                socket.CreateLocation(json);
             }
         }
 
@@ -47,7 +56,9 @@ namespace ServerFramework.Logic
         {
             if (user.Roles.OfType<InboundManager>().Any())
             {
-                //Database upload comes here
+                SocketServiceImpl socket = new SocketServiceImpl();
+                string json = JsonSerializer.Serialize<string>(id);
+                socket.DeleteLocation(json);
             }
         }
 
@@ -55,9 +66,12 @@ namespace ServerFramework.Logic
         /// Get all the locations from the database.
         /// </summary>
         /// <param name="id">Location ID.</param>
-        public void GetLocation(string id)
+        public Location GetLocation(string id)
         {
-            
+            SocketServiceImpl socket = new SocketServiceImpl();
+            string json = JsonSerializer.Serialize<string>(id);
+            Location location = socket.GetLocation(json);
+            return location;
         }
 
         /// <summary>
@@ -66,7 +80,12 @@ namespace ServerFramework.Logic
         /// <param name="loc">Location object.</param>
         public void UpdateLocation(Location loc)
         {
-            
+            if (user.Roles.OfType<InboundManager>().Any())
+            {
+                SocketServiceImpl socket = new SocketServiceImpl();
+                string json = JsonSerializer.Serialize<Location>(loc);
+                socket.UpdateLocation(json);
+            }
         }
 
         /// <summary>
@@ -75,7 +94,7 @@ namespace ServerFramework.Logic
         /// <param name="id">Location ID.</param>
         public void ReplenishLocation(string id)
         {
-            
+            // Impl needed
         }
 
         /// <summary>

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ServerFramework.Services
 {
+    [Obsolete]
     public class DataWebServiceImpl : DataWebService
     {
         public async Task ConfirmOrder(int orderId)

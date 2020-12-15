@@ -5,6 +5,7 @@ using ServerFramework.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ServerFramework.Logic
@@ -63,21 +64,23 @@ namespace ServerFramework.Logic
 
         public void CancelOrder(int id)
         {
-            queue.RemoveOrder(id);
-            //delete order from database
-        }
-
-        public void HandleCancelledOrder(int id)
-        {
-            LoadOrderToField(id);
-            //figure out how to do this
+            if (user.Roles.OfType<PickingManager>().Any())
+            {
+                queue.RemoveOrder(id);
+                DeleteOrder(id);
+            }
         }
 
         public void LoadTruckOrder(int id)
         {
-            LoadOrderToField(id);
-            order.ChangeOrderState();
-            //post orderstate to database, update it
+            if (user.Roles.OfType<Loader>().Any())
+            {
+                LoadOrderToField(id);
+                order.ChangeOrderState();
+                SocketServiceImpl socket = new SocketServiceImpl();
+                string json = JsonSerializer.Serialize<int>(id);
+                socket.LoadTruckOrder(json);
+            }
         }
 
         public void QueueNewOrder(Order order, bool isHigh)
@@ -89,7 +92,12 @@ namespace ServerFramework.Logic
 
         public void DeleteOrder(int id)
         { 
-            //delete order from DB
+            if (user.Roles.OfType<PickingManager>().Any())
+            {
+                SocketServiceImpl socket = new SocketServiceImpl();
+                string json = JsonSerializer.Serialize<int>(id);
+                socket.DeleteOrder(json);
+            }
         }
 
         public void ClearOrderQueue()

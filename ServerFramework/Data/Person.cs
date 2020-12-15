@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ServerFramework.Data
 {
+    [Obsolete]
     /// <summary>
     /// Class to store persons. Stores name, id, and authorization roles.
     /// </summary>
@@ -13,12 +14,10 @@ namespace ServerFramework.Data
     {
         private readonly string firstName, lastName;
         private int id;
-        private List<Role> roles;
         private User user;
         public string Firstname { get => firstName; }
         public string Lastname { get => lastName; }
         public int ID { get => id; set => id = value; }
-        public List<Role> Roles { get => roles; set => roles = value; }
         
         
         /// <summary>
@@ -44,15 +43,6 @@ namespace ServerFramework.Data
         public void Setup(int id)
         {
             this.id = id;  
-        }
-
-        /// <summary>
-        /// Adds a role to the Person. NOTE: roles are all static classes in the Authorization.AuthRoles namespace.
-        /// </summary>
-        /// <param name="role">The name of the Role to be added.</param>
-        public void AddRole(Role role)
-        {
-            roles.Add(role);
         }
     }
 }
