@@ -1,12 +1,14 @@
 ﻿using ClientFramework.Data;
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ClientFramework.Authorization;
 
 namespace ClientFramework.REST
 {
-    public class CustomHTTPRequests
+    public class CustomHTTPRequests : ICustomHttp
     {
         public async Task<HttpResponseMessage> PostConfirmation(int orderID)
         {
@@ -76,6 +78,22 @@ namespace ClientFramework.REST
             HttpResponseMessage message = await client.PostAsync(webService, content);
             if (message.IsSuccessStatusCode) return message;
             else return null;
+        }
+
+        public async Task<User> ValidateLogin(string username, string password)
+        {
+            //reeeeeeeeeeee
+            //
+            Console.WriteLine("custtomhttprequest validate login");
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync($"https://localhost:5003/users?username={username}&password={password}");
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                string userAsJson = await response.Content.ReadAsStringAsync();
+                User resultUser = JsonSerializer.Deserialize<User>(userAsJson);
+                return resultUser;
+            } 
+            throw new Exception("User not found");
         }
     }
 }

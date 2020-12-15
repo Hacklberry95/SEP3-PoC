@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using ServerFramework.Authorization;
 
 namespace ServerFramework.Services
 {
@@ -6,5 +7,8 @@ namespace ServerFramework.Services
     {
         string TransmitAndReturnResponse(string jsonifiedObject);
         void JustTransmit(string jsonifiedObject);
+
+        User ValidateUser(string username, string password);
+
     }
 }
