@@ -9,5 +9,6 @@ namespace ServerFramework.Services
         void JustTransmit(string jsonifiedObject);
 
         User ValidateUser(string username, string password);
+
     }
 }
