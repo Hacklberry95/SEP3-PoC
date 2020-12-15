@@ -1,36 +1,60 @@
 package DBServer.networking;
 
 import DBServer.Services.IPoolService;
+import SQL.ISQLQueryInterpreter;
+import com.google.gson.Gson;
 import org.eclipse.jetty.util.IO;
 
 import java.io.*;
 import java.net.Socket;
+import java.sql.SQLException;
 
 public class SocketHandler implements Runnable
 {
-    IPoolService poolService;
     private Socket socket;
     private ObjectOutputStream outToClient;
     private ObjectInputStream inFromClient;
+    private ISQLQueryInterpreter isqlQueryInterpreter;
 
-    public SocketHandler(Socket socket) {
+
+
+    public SocketHandler(Socket socket, ISQLQueryInterpreter sqlInterpreter, ConnectionPool connectionPool) {
         this.socket = socket;
-
+        isqlQueryInterpreter = sqlInterpreter;
         try {
             inFromClient = new ObjectInputStream(socket.getInputStream());
             outToClient = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        poolService.addHandler(this);
+        connectionPool.addHandler(this);
     }
 
     @Override
     public void run()
     {
+        Gson gson = new Gson();
+
         while (true)
         {
-
+            try
+            {
+                String type = determineType(rec(inFromClient))[0];
+                String message = determineType(rec(inFromClient))[1];
+                switch (type)
+                {
+                    case "loginInfo" :
+                    {
+                        if(isqlQueryInterpreter.getUserBoolean(message))
+                        {
+                            String returnData = "userInfo" + "@" + gson.toJson(isqlQueryInterpreter.getUserById(message));
+                            trans(returnData, outToClient);
+                        }
+                    }
+                }
+            } catch (IOException | SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     private String rec(InputStream is) throws IOException
@@ -46,6 +70,7 @@ public class SocketHandler implements Runnable
         String received = new String(receivedBytes, 0, len);
         return received;
     }
+
     private void trans(String msg, OutputStream os) throws IOException
     {
         String toSend = msg;
@@ -58,5 +83,9 @@ public class SocketHandler implements Runnable
         toSendLenBytes[3] = (byte)((toSendLen >> 24) & 0xff);
         os.write(toSendLenBytes);
         os.write(toSendBytes);
+    }
+    private String[] determineType(String msg)
+    {
+        return msg.split("@");
     }
 }

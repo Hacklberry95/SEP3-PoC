@@ -1,8 +1,10 @@
 ﻿@page "/"
 
-@using ClientFramework.Data
-@using System.ComponentModel.DataAnnotations
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
 @using ClientFramework.REST
+@using ClientFramework.Authorization
+
 
 <img src="~/css/img/logo.png" alt="Company logo" class="company-logo main-menu-logo">
 
@@ -14,10 +16,21 @@
 @code {
     private string username;
     private string password;
-
+    private string errorMessage;
     private async Task Login()
     {
-        CustomHTTPRequests c = new CustomHTTPRequests();
-        await c.PostLogin(username, password);
+        errorMessage = "";
+        try
+        {
+            Console.WriteLine("Entering login method in index");
+            await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLogin(username, password);
+            username = "";
+            password = "";
+            NavigationManager.NavigateTo("/InboundManager");
+        }
+        catch (Exception e)
+        {
+            errorMessage = e.Message;
+        }
     }
 }

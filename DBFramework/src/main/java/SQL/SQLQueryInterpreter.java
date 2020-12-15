@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class SQLQueryInterpreter
+public class SQLQueryInterpreter implements ISQLQueryInterpreter
 {
     private Connection c;
     private ArrayList<Integer> intArr;
@@ -92,13 +92,23 @@ public class SQLQueryInterpreter
         return order;
     }
 
-    public User getUserById(int id, String password) throws SQLException
+    public User getUserById(String username) throws SQLException
     {
-        String query = "SELECT * FROM user WHERE (id = " + id + ")";
+        String query = "SELECT * FROM user WHERE (username = " + username + ")";
         Statement st = c.createStatement();
         ResultSet rs = st.executeQuery(query);
         User user = new User(rs.getString("username"), rs.getString("password"));
         return user;
     }
 
+    public boolean getUserBoolean(String username) throws SQLException
+    {
+        String query = "SELECT * FROM user WHERE (username = " + username + ")";
+        Statement st = c.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        User user = new User(rs.getString("username"), rs.getString("password"));
+        if(user.getUsername().equals(""))
+        return false;
+        else return true;
+    }
 }
