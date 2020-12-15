@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject CustomAuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
 @using ClientFramework.REST
 @using ClientFramework.Authorization
@@ -23,13 +23,14 @@
         try
         {
             Console.WriteLine("Entering login method in index");
-            await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLogin(username, password);
+            await AuthenticationStateProvider.ValidateLogin(username, password);
             username = "";
             password = "";
             NavigationManager.NavigateTo("/InboundManager");
         }
         catch (Exception e)
         {
+            Console.WriteLine(e.StackTrace);
             errorMessage = e.Message;
         }
     }
