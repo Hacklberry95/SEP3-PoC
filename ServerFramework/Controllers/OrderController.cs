@@ -20,52 +20,124 @@ namespace ServerFramework.Controllers
             client = new ClientWebServiceImpl();
         }
 
+        [HttpGet]
         public async Task<ActionResult> TakeNewOrder()
         {
-            HandleOrder order = new HandleOrder();
-            return order.TakeNewOrder();
+            try
+            {
+                Order order = await client.TakeNewOrder();
+                return Ok(order);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
         }
 
+        [HttpPost]
         public async Task<ActionResult> FinalizePicking(int id)
         {
-            HandleOrder order = new HandleOrder();
-            order.FinalizePicking(id);
+            try
+            {
+                await client.FinalizePicking(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
         }
 
+        [HttpPost]
         public async Task<ActionResult> CancelOrder(int id)
         {
-            HandleOrder order = new HandleOrder();
-            order.CancelOrder(id);
+            try
+            {
+                await client.CancelOrder(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
         }
 
+        [HttpPost]
         public async Task<ActionResult> QueueNewOrder(Order order, bool isHigh)
         {
-            HandleOrder handler = new HandleOrder();
-            handler.QueueNewOrder(order, isHigh);
+            try
+            {
+                await client.QueueNewOrder(order, isHigh);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
         }
 
+        [HttpPost]
         public async Task<ActionResult> DeleteOrder(int id)
         {
-            HandleOrder handler = new HandleOrder();
-            handler.DeleteOrder(id);
+            try
+            {
+                await client.DeleteOrder(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
         }
 
+        [HttpHead]
         public async Task<ActionResult> ClearOrderQueue()
         {
-            HandleOrder handler = new HandleOrder();
-            handler.ClearOrderQueue();
+            try
+            {
+                await client.ClearOrderQueue();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
         }
 
+        [HttpGet]
         public async Task<ActionResult> CheckOrderPosition(int id)
         {
-            HandleOrder handler = new HandleOrder();
-            return handler.CheckOrderPosition(id);
+            try
+            {
+                int pos = await client.CheckOrderPosition(id);
+                return Ok(pos);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
         }
 
+        [HttpHead]
         public async Task<ActionResult> CutFromOrder(int itemId, int orderId)
         {
-            HandleOrder handler = new HandleOrder();
-            handler.CutFromOrder(itemId, orderId);
+            try
+            {
+                await client.CutFromOrder(itemId, orderId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }
