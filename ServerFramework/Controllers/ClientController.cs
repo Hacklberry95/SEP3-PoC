@@ -16,6 +16,7 @@ namespace ServerFramework.Controllers
     {
         ClientWebService client;
         private ISocketService SocketService;
+
         public ClientController()
         {
             client = new ClientWebServiceImpl();
@@ -65,19 +66,6 @@ namespace ServerFramework.Controllers
             {
                 Console.WriteLine(e);
                 return StatusCode(500, e.Message);
-            }
-        }
-        [HttpGet]
-        public async Task<ActionResult<User>> ValidateUser([FromQuery] string username, [FromQuery] string password)
-        {
-            try
-            {
-                var user = SocketService.ValidateUser(username, password);
-                return Ok(user);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
             }
         }
 /*

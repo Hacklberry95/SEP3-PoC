@@ -4,12 +4,20 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ServerFramework.Authorization;
 using ServerFramework.Data;
 
 namespace ServerFramework.Services
 {
     public class ClientWebServiceImpl : ClientWebService
-    {      
+    {
+        ISocketService socket;
+
+        public ClientWebServiceImpl()
+        {
+            socket = new SocketServiceImpl();
+        }
+
         public async Task ConfirmOrder(Order order)
         {
             int i = order.Id;
@@ -40,6 +48,12 @@ namespace ServerFramework.Services
             string serialId = JsonSerializer.Serialize(id, id.GetType());
             StringContent content = new StringContent(serialId);
             await httpClient.PostAsync(DataURI, content);
+        }
+
+        public async Task<User> ValidateUser(string username, string password)
+        {
+            User user = socket.ValidateUser(username, password);
+            return user;
         }
     }
 }

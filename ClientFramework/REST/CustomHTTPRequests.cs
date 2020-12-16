@@ -10,14 +10,20 @@ namespace ClientFramework.REST
 {
     public class CustomHTTPRequests : ICustomHttp
     {
-        string uriMain = "http://localhost:5001/ServerFramework/api/";
+        HttpClient client;
+        string uriMain;
+
+        public CustomHTTPRequests()
+        {
+            client = new HttpClient();
+            uriMain = "http://localhost:5001/ServerFramework/api/";
+        }
 
         public async Task<HttpResponseMessage> PostConfirmation(int orderID)
         {
             try
             {
                 System.Diagnostics.Debug.WriteLine("PostConfirmation");
-                HttpClient client = new HttpClient();
                 Uri webService = new Uri(uriMain + "clientControl");
                 string jsonString = "";
                 jsonString = JsonSerializer.Serialize(orderID.ToString(), String.Empty.GetType());
@@ -36,7 +42,6 @@ namespace ClientFramework.REST
         [Obsolete]
         public async Task<HttpResponseMessage> PostConfirmation(Order order)
         {
-            HttpClient client = new HttpClient();
             Uri webService = new Uri("");
             string jsonString = "";
             jsonString = JsonSerializer.Serialize(order, order.GetType());
@@ -48,7 +53,6 @@ namespace ClientFramework.REST
 
         public async Task<HttpResponseMessage> PostNewItem(Item item)
         {
-            HttpClient client = new HttpClient();
             Uri webService = new Uri("");
             string jsonString = "";
             jsonString = JsonSerializer.Serialize(item, item.GetType());
@@ -59,7 +63,6 @@ namespace ClientFramework.REST
         }
         public async Task<HttpResponseMessage> PostAddMoreItem(int id, int count)
         {
-            HttpClient client = new HttpClient();
             Uri webService = new Uri("");
             string jsonString = "";
             string sendString = id.ToString() + "#" + count.ToString();
@@ -70,45 +73,35 @@ namespace ClientFramework.REST
             else return null;
         }
 
-        public async Task<HttpResponseMessage> PostLogin(string username, string password)
+        public async Task<User> ValidateLogin(string username, string password)
         {
-            HttpClient client = new HttpClient();
+            //Console.WriteLine("custtomhttprequest validate login");
+            Uri webService = new Uri(uriMain + $"/login?username={username}&password={password}");
+            HttpResponseMessage response = await client.GetAsync(webService);
+            if (response.IsSuccessStatusCode)
+            {
+                string userAsJson = await response.Content.ReadAsStringAsync();
+                User resultUser = JsonSerializer.Deserialize<User>(userAsJson);
+                return resultUser;
+            } 
+            else throw new Exception("User not found");
+        }
+        
+        public async Task<HttpResponseMessage> ConfirmPick(int itemId, int orderId)
+        {
             Uri webService = new Uri("");
-            string transform = username + "%" + password;
-            string jsonString = "";
-            jsonString = JsonSerializer.Serialize(transform, transform.GetType());
+            string sendString = itemId.ToString() + "#" + orderId.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
             HttpResponseMessage message = await client.PostAsync(webService, content);
             if (message.IsSuccessStatusCode) return message;
             else return null;
         }
 
-        public async Task<User> ValidateLogin(string username, string password)
+        ~CustomHTTPRequests()
         {
-            //reeeeeeeeeeee
-            //
-            Console.WriteLine("custtomhttprequest validate login");
-            HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync($"https://localhost:5003/users?username={username}&password={password}");
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                string userAsJson = await response.Content.ReadAsStringAsync();
-                User resultUser = JsonSerializer.Deserialize<User>(userAsJson);
-                return resultUser;
-            } 
-            throw new Exception("User not found");
-        }
-        
-        public async Task<HttpResponseMessage> ConfirmPick(int itemId, int orderId)
-        {
-                HttpClient client = new HttpClient();
-                Uri webService = new Uri("");
-                string sendString = itemId.ToString() + "#" + orderId.ToString();
-                string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
-                StringContent content = new StringContent(jsonString);
-                HttpResponseMessage message = await client.PostAsync(webService, content);
-                if (message.IsSuccessStatusCode) return message;
-                else return null;
+            client = null;
+            GC.Collect();
         }
     }
 }

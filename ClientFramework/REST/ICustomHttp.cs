@@ -8,10 +8,6 @@ namespace ClientFramework.REST
     {
         Task<User> ValidateLogin(string username, string password);
         Task<HttpResponseMessage> PostConfirmation(int orderID);
-        //Task<HttpResponseMessage> PostConfirmation(Order order);
-        //Task<HttpResponseMessage> PostNewItem(Item item);
-        Task<HttpResponseMessage> PostAddMoreItem(int id, int count);
-        Task<HttpResponseMessage> PostLogin(string username, string password);
-        
+        Task<HttpResponseMessage> PostAddMoreItem(int id, int count);  
     }
 }
