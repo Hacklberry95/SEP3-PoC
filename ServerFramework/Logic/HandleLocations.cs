@@ -10,7 +10,6 @@ namespace ServerFramework.Logic
     public class HandleLocations
     {
         private Location location;
-        private User user;
 
         /// <summary>
         /// This method will assign a recently received item to a location.
@@ -19,8 +18,6 @@ namespace ServerFramework.Logic
         /// <param name="id">Location ID.</param>
         public void AllocatePutaway(Item item, string id)
         {
-            if (user.Roles.OfType<InboundManager>().Any())
-            {
                 GetLocationByFullId(id);
                 location.Item = item;
                 if (location.Checksum == 0)
@@ -29,7 +26,6 @@ namespace ServerFramework.Logic
                     string json = JsonSerializer.Serialize<Location>(location);
                     //socket.AllocatePutaway(json);
                 }
-            }
         }
         
         /// <summary>
@@ -38,14 +34,11 @@ namespace ServerFramework.Logic
         /// <param name="id">Location ID.</param>
         public void CreateLocation(string id)
         {
-            if (user.Roles.OfType<InboundManager>().Any())
-            {
                 GetLocationByFullId(id);
                 Location temp = location;
                 SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Deserialize<string>(id);
                 socket.CreateLocation(json);
-            }
         }
 
         /// <summary>
@@ -54,12 +47,9 @@ namespace ServerFramework.Logic
         /// <param name="id">Location ID.</param>
         public void DeleteLocation(string id)
         {
-            if (user.Roles.OfType<InboundManager>().Any())
-            {
                 SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Serialize<string>(id);
                 socket.DeleteLocation(json);
-            }
         }
 
         /// <summary>
@@ -80,12 +70,9 @@ namespace ServerFramework.Logic
         /// <param name="loc">Location object.</param>
         public void UpdateLocation(Location loc)
         {
-            if (user.Roles.OfType<InboundManager>().Any())
-            {
                 SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Serialize<Location>(loc);
                 socket.UpdateLocation(json);
-            }
         }
 
         /// <summary>
