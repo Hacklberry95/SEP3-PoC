@@ -10,13 +10,15 @@ namespace ClientFramework.REST
 {
     public class CustomHTTPRequests : ICustomHttp
     {
+        string uriMain = "http://localhost:5001/ServerFramework/api/";
+
         public async Task<HttpResponseMessage> PostConfirmation(int orderID)
         {
             try
             {
                 System.Diagnostics.Debug.WriteLine("PostConfirmation");
                 HttpClient client = new HttpClient();
-                Uri webService = new Uri("http://localhost:5001/ServerFramework/api/clientControl");
+                Uri webService = new Uri(uriMain + "clientControl");
                 string jsonString = "";
                 jsonString = JsonSerializer.Serialize(orderID.ToString(), String.Empty.GetType());
                 StringContent content = new StringContent(jsonString);
@@ -31,6 +33,7 @@ namespace ClientFramework.REST
             }
         }
 
+        [Obsolete]
         public async Task<HttpResponseMessage> PostConfirmation(Order order)
         {
             HttpClient client = new HttpClient();

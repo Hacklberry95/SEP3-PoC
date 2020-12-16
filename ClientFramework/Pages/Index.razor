@@ -2,7 +2,6 @@
 
 @inject CustomAuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
-@using ClientFramework.REST
 @using ClientFramework.Authorization
 
 
@@ -16,10 +15,8 @@
 @code {
     private string username;
     private string password;
-    private string errorMessage;
     private async Task Login()
     {
-        errorMessage = "";
         try
         {
             Console.WriteLine("Entering login method in index");
@@ -31,7 +28,6 @@
         catch (Exception e)
         {
             Console.WriteLine(e.StackTrace);
-            errorMessage = e.Message;
         }
     }
 }

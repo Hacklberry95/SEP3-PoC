@@ -33,9 +33,9 @@ namespace ClientFramework
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddScoped<Outbound>();
+            //services.AddScoped<Outbound>();
             services.AddScoped<ICustomHttp,CustomHTTPRequests>();
-            services.AddScoped<CustomAuthenticationStateProvider>();
+            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
         }
 

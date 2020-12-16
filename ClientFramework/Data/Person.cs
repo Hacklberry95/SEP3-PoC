@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClientFramework.Data
 {
+    [Obsolete]
     /// <summary>
     /// Class to store persons. Stores name, id, and authorization roles.
     /// </summary>
