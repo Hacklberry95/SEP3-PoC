@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using ServerFramework.Authorization;
@@ -18,14 +19,11 @@ namespace ServerFramework.Logic
         /// <param name="id">Location ID.</param>
         public void AllocatePutaway(Item item, string id)
         {
-                GetLocationByFullId(id);
-                location.Item = item;
-                if (location.Checksum == 0)
-                {
-                    SocketServiceImpl socket = new SocketServiceImpl();
-                    string json = JsonSerializer.Serialize<Location>(location);
-                    //socket.AllocatePutaway(json);
-                }
+            GetLocationByFullId(id);
+            location.Item = item;
+            SocketServiceImpl socket = new SocketServiceImpl();
+            string json = JsonSerializer.Serialize<Location>(location);
+            socket.AllocatePutaway(json);
         }
         
         /// <summary>
@@ -34,8 +32,6 @@ namespace ServerFramework.Logic
         /// <param name="id">Location ID.</param>
         public void CreateLocation(string id)
         {
-                GetLocationByFullId(id);
-                Location temp = location;
                 SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Deserialize<string>(id);
                 socket.CreateLocation(json);
@@ -70,18 +66,22 @@ namespace ServerFramework.Logic
         /// <param name="loc">Location object.</param>
         public void UpdateLocation(Location loc)
         {
-                SocketServiceImpl socket = new SocketServiceImpl();
-                string json = JsonSerializer.Serialize<Location>(loc);
-                socket.UpdateLocation(json);
+            SocketServiceImpl socket = new SocketServiceImpl();
+            string json = JsonSerializer.Serialize<Location>(loc);
+            socket.UpdateLocation(json);
         }
 
         /// <summary>
         /// This method would be called when the amount of an item reaches a minimum limit and have to be restocked on the location.
         /// </summary>
         /// <param name="id">Location ID.</param>
-        public void ReplenishLocation(string id)
+        /// <returns>A List of all locations to be replenished.</returns>
+        public List<string> ReplenishLocation(string id)
         {
-            // Impl needed
+            // Impl needed: send it to client -> update replenish location
+            SocketServiceImpl socket = new SocketServiceImpl();
+            List<string> list = socket.ReplenishLocation(id);
+            return list;
         }
 
         /// <summary>
@@ -92,9 +92,6 @@ namespace ServerFramework.Logic
         {
             string[] arr = id.Split("-");
             location = new Location(arr[2], arr[1], arr[0]);
-            //take out before release
-            System.Diagnostics.Debug.WriteLine(location.getFullId());
-            //take out before release
         }
     }
 }

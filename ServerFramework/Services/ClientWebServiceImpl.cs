@@ -28,7 +28,7 @@ namespace ServerFramework.Services
         public async Task ConfirmOrder(int id)
         {
             System.Diagnostics.Debug.WriteLine("ClientWebServiceConfirm");
-            HandleOrder handleOrders = new HandleOrder(null);
+            HandleOrder handleOrders = new HandleOrder();
             handleOrders.LoadTruckOrder(id);
         }
         
@@ -67,5 +67,78 @@ namespace ServerFramework.Services
             HandleItems items = new HandleItems();
             items.RemoveItem(id);
         }
+
+        public async Task<Item> GetItem(int id)
+        {
+            HandleItems items = new HandleItems();
+            return items.GetItem(id);
+        }
+
+        public async Task MarkItemAsDamaged(int id, int count)
+        {
+            HandleItems items = new HandleItems();
+            items.MarkItemAsDamaged(id, count);
+        }
+
+        public async Task AllocatePutaway(Item item, string id)
+        {
+            HandleLocations items = new HandleLocations();
+            items.AllocatePutaway(item, id);
+        }
+
+        public async Task CreateLocation(string id)
+        {
+            HandleLocations items = new HandleLocations();
+            items.CreateLocation(id);
+        }
+
+        public async Task UpdateLocation(Location item)
+        {
+            HandleLocations items = new HandleLocations();
+            items.UpdateLocation(item);
+        }
+
+        public async Task DeleteLocation(string id)
+        {
+            HandleLocations items = new HandleLocations();
+            items.DeleteLocation(id);
+        }
+
+        public async Task<Location> GetLocation(string id)
+        {
+            HandleLocations items = new HandleLocations();
+            return items.GetLocation(id);
+        }
+
+        public async Task<List<string>> ReplenishLocation(string id)
+        {
+            HandleLocations loc = new HandleLocations();
+            return loc.ReplenishLocation(id);
+        }
+
+        public async Task AddUser(User user)
+        {
+            HandleUsers items = new HandleUsers();
+            items.AddUser(user);
+        }
+
+        public async Task UpdateUser(User user)
+        {
+            HandleUsers items = new HandleUsers();
+            items.UpdateUser(user);
+        }
+
+        public async Task DeleteUser(string username)
+        {
+            HandleUsers items = new HandleUsers();
+            items.RemoveUser(username);
+        }
+
+        public async Task<User> GetUser(string username)
+        {
+            HandleUsers items = new HandleUsers();
+            return items.GetUser(username);
+        }
+
     }
 }

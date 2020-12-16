@@ -66,11 +66,12 @@ namespace ServerFramework.Logic
         /// This method would move the given amount of damaged items to another table in the DB.
         /// </summary>
         /// <param name="id">Item ID.</param>
-        public void MarkItemAsDamaged(int id)
+        public void MarkItemAsDamaged(int id, int count)
         {
-                SocketServiceImpl socket = new SocketServiceImpl();
-                string json = JsonSerializer.Serialize<int>(id);
-                socket.MarkItemAsDamaged(json);
+            string transmit = id.ToString() + "#" + count.ToString();
+            SocketServiceImpl socket = new SocketServiceImpl();
+            string json = JsonSerializer.Serialize<string>(transmit);
+            socket.MarkItemAsDamaged(json);
         }
 
         /// <summary>
@@ -80,10 +81,10 @@ namespace ServerFramework.Logic
         /// <param name="itemCount">The amount of items to return per any type.</param>
         public void ReturnItems(int itemID, int itemCount)
         {
-                string intToJson = itemIDs + "#" + itemCounts;
-                SocketServiceImpl socket = new SocketServiceImpl();
-                string json = JsonSerializer.Serialize<string>(intToJson);
-                socket.ReturnItems(json);
+            string intToJson = itemID + "#" + itemCount;
+            SocketServiceImpl socket = new SocketServiceImpl();
+            string json = JsonSerializer.Serialize<string>(intToJson);
+            socket.ReturnItems(json);
         }
     }
 }

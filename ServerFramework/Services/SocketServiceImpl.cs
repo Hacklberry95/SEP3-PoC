@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Threading.Tasks;
 using ServerFramework.Authorization;
+using System.Collections.Generic;
 
 namespace ServerFramework.Services
 {
@@ -90,7 +91,13 @@ namespace ServerFramework.Services
             }
             throw new Exception("User not found");
         }
-        
+
+        public void AllocatePutaway(string json)
+        {
+            string transmit = "AllocPutaway@" + json;
+            JustTransmit(transmit);
+        }
+
         public void AddNewItem(string itemJson)
         {
             string transmit = "NewItem@" + itemJson;
@@ -244,6 +251,28 @@ namespace ServerFramework.Services
                 {
                     Order order = JsonSerializer.Deserialize<Order>(arr[1]);
                     return order;
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                    return null;
+                }
+            }
+            else return null;
+        }
+
+        public List<string> ReplenishLocation(string id)
+        {
+            string jsonId = JsonSerializer.Serialize(id.ToString(), String.Empty.GetType());
+            string transmit = "GetOrder@" + jsonId;
+            string message = TransmitAndReturnResponse(transmit);
+            string[] arr = message.Split('@');
+            if (arr[0].Equals("ReplenishLocation"))
+            {
+                try
+                {
+                    List<string> ids = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(arr[1]);
+                    return ids;
                 }
                 catch (Exception e)
                 {

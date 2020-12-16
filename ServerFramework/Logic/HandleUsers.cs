@@ -11,9 +11,6 @@ namespace ServerFramework.Logic
     /// </summary>
     public class HandleUsers
     {
-        private User user;
-        private User userHandled;
-
         /// <summary>
         /// This method is to add a new user to the database.
         /// </summary>
@@ -21,9 +18,9 @@ namespace ServerFramework.Logic
         /// <param name="username">Username.</param>
         public void AddUser(User userParam)
         {
-                SocketServiceImpl socket = new SocketServiceImpl();
-                string json = JsonSerializer.Serialize<User>(userParam);
-                socket.AddUser(json);
+            SocketServiceImpl socket = new SocketServiceImpl();
+            string json = JsonSerializer.Serialize<User>(userParam);
+            socket.AddUser(json);
         }
 
         /// <summary>
@@ -32,9 +29,9 @@ namespace ServerFramework.Logic
         /// <param name="userParam">User parameter.</param>
         public void UpdateUser(User userParam)
         {
-                SocketServiceImpl socket = new SocketServiceImpl();
-                string json = JsonSerializer.Serialize<User>(userParam);
-                socket.UpdateUser(json);
+            SocketServiceImpl socket = new SocketServiceImpl();
+            string json = JsonSerializer.Serialize<User>(userParam);
+            socket.UpdateUser(json);
         }
 
         /// <summary>
@@ -43,9 +40,9 @@ namespace ServerFramework.Logic
         /// <param name="username">Username.</param>
         public void RemoveUser(string username)
         {
-                SocketServiceImpl socket = new SocketServiceImpl();
-                string json = JsonSerializer.Serialize<string>(username);
-                socket.RemoveUser(json);
+            SocketServiceImpl socket = new SocketServiceImpl();
+            string json = JsonSerializer.Serialize<string>(username);
+            socket.RemoveUser(json);
         }
 
         /// <summary>
