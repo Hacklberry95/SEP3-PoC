@@ -9,6 +9,7 @@ using ServerFramework.Data;
 
 namespace ServerFramework.Controllers
 {
+    [Obsolete]
     [Route("api/dataControl")]
     [ApiController]
     public class DataController : ControllerBase

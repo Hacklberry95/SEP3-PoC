@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ServerFramework.Database
 {
+    [Obsolete]
     /// <summary>
     /// Class that creates,reads, updates and deletes items
     /// </summary>

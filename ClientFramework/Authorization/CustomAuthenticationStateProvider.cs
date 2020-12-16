@@ -58,7 +58,7 @@ namespace ClientFramework.Authorization
             }
             catch (Exception e)
             {
-                throw e;
+                Console.WriteLine(e.StackTrace);
             }
 
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity))));
