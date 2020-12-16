@@ -10,9 +10,7 @@ namespace ServerFramework.Services
     interface ClientWebService
     {
         public Task ConfirmOrder(int id);
-        public Task ConfirmOrder(Order order);
-        public Task ReceiveItem(Item item);
-        public Task ReceiveItem(int id);
+        public Task ReceiveItem(int id, int count);
         public Task<User> ValidateUser(string username, string password);
     }
 }

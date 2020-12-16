@@ -8,8 +8,8 @@ namespace ServerFramework.Services
     /// </summary>
     public class OrderQueue : IOrderQueue
     {
-        private List<int> nQueue;
-        private List<int> hQueue;
+        private static List<int> nQueue;
+        private static List<int> hQueue;
 
         /// <summary>
         /// Constructor for the Order Queue class.

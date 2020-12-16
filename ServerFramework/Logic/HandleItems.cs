@@ -49,12 +49,12 @@ namespace ServerFramework.Logic
         /// Removes an item by ID from the DB.
         /// </summary>
         /// <param name="item">Item object.</param>
-        public void RemoveItem(Item item)
+        public void RemoveItem(int itemID)
         {
             if (user.Roles.OfType<InboundManager>().Any())
             {
                 SocketServiceImpl socket = new SocketServiceImpl();
-                string json = JsonSerializer.Serialize<Item>(item);
+                string json = JsonSerializer.Serialize<int>(itemID);
                 socket.RemoveItem(json);
             }
         }
@@ -64,10 +64,10 @@ namespace ServerFramework.Logic
         /// </summary>
         /// <param name="id">Item ID.</param>
         /// <returns>An Item object.</returns>
-        public Item GetItem(string id)
+        public Item GetItem(int id)
         {
             SocketServiceImpl socket = new SocketServiceImpl();
-            string json = JsonSerializer.Serialize<string>(id);
+            string json = JsonSerializer.Serialize<int>(id);
             Item item = socket.GetItem(json);
             return item;
         }
@@ -76,12 +76,12 @@ namespace ServerFramework.Logic
         /// This method would move the given amount of damaged items to another table in the DB.
         /// </summary>
         /// <param name="id">Item ID.</param>
-        public void MarkItemAsDamaged(string id)
+        public void MarkItemAsDamaged(int id)
         {
             if (user.Roles.OfType<Troubleshooter>().Any())
             {
                 SocketServiceImpl socket = new SocketServiceImpl();
-                string json = JsonSerializer.Serialize<string>(id);
+                string json = JsonSerializer.Serialize<int>(id);
                 socket.MarkItemAsDamaged(json);
             }
         }
@@ -89,13 +89,13 @@ namespace ServerFramework.Logic
         /// <summary>
         /// This method will handle the returned orders, which can be broken down to items.
         /// </summary>
-        /// <param name="itemIDs">The ID of the given item to return.</param>
-        /// <param name="itemCounts">The amount of items to return per any type.</param>
-        public void ReturnItems(int itemIDs, int itemCounts)
+        /// <param name="itemID">The ID of the given item to return.</param>
+        /// <param name="itemCount">The amount of items to return per any type.</param>
+        public void ReturnItems(int itemID, int itemCount)
         {
             if (user.Roles.OfType<Troubleshooter>().Any())
             {
-                string intToJson = itemIDs + "#" + itemCounts;
+                string intToJson = itemID + "#" + itemCount;
                 SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Serialize<string>(intToJson);
                 socket.ReturnItems(json);

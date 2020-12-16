@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using ClientFramework.Authorization;
 
 namespace ClientFramework.REST
-{
+{   
     public class CustomHTTPRequests : ICustomHttp
     {
         HttpClient client;
@@ -25,8 +25,7 @@ namespace ClientFramework.REST
             {
                 System.Diagnostics.Debug.WriteLine("PostConfirmation");
                 Uri webService = new Uri(uriMain + "clientControl");
-                string jsonString = "";
-                jsonString = JsonSerializer.Serialize(orderID.ToString(), String.Empty.GetType());
+                string jsonString = JsonSerializer.Serialize(orderID.ToString(), String.Empty.GetType());
                 StringContent content = new StringContent(jsonString);
                 HttpResponseMessage message = await client.PostAsync(webService, content);
                 if (message.IsSuccessStatusCode) return message;
@@ -63,10 +62,9 @@ namespace ClientFramework.REST
         }
         public async Task<HttpResponseMessage> PostAddMoreItem(int id, int count)
         {
-            Uri webService = new Uri("");
-            string jsonString = "";
+            Uri webService = new Uri(uriMain + "item");
             string sendString = id.ToString() + "#" + count.ToString();
-            jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
             HttpResponseMessage message = await client.PostAsync(webService, content);
             if (message.IsSuccessStatusCode) return message;
