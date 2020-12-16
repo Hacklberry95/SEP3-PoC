@@ -10,7 +10,7 @@ using ServerFramework.Services;
 
 namespace ServerFramework.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/loginControl")]
     [ApiController]
     public class LoginController : ControllerBase
     {

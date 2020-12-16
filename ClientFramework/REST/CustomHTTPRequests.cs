@@ -41,7 +41,7 @@ namespace ClientFramework.REST
         [Obsolete]
         public async Task<HttpResponseMessage> PostConfirmation(Order order)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "clientControl");
             string jsonString = "";
             jsonString = JsonSerializer.Serialize(order, order.GetType());
             StringContent content = new StringContent(jsonString);
@@ -52,7 +52,7 @@ namespace ClientFramework.REST
 
         public async Task<HttpResponseMessage> AddNewItem(Item item)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "itemControl");
             string jsonString = "";
             jsonString = JsonSerializer.Serialize(item, item.GetType());
             StringContent content = new StringContent(jsonString);
@@ -85,9 +85,10 @@ namespace ClientFramework.REST
             else throw new Exception("User not found");
         }
         
+        //redundant method probably
         public async Task<HttpResponseMessage> ConfirmPick(int itemId, int orderId)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "clientControl");
             string sendString = itemId.ToString() + "#" + orderId.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -98,7 +99,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> ReceiveItem(int itemId, int count)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "itemControl");
             string sendString = itemId.ToString() + "#" + count.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -113,7 +114,7 @@ namespace ClientFramework.REST
 
         public async Task<HttpResponseMessage> EditItem(int itemId, int count)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "itemControl");
             string sendString = itemId.ToString() + "#" + count.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -128,7 +129,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> RemoveItem(int itemId)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "itemControl");
             string sendString = itemId.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -143,7 +144,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> GetItem(int itemId)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "itemControl");
             string sendString = itemId.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -158,7 +159,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> MarkItemAsDamaged(int itemId)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "itemControl");
             string sendString = itemId.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -173,7 +174,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> AllocatePutaway(int itemId)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "locationControl");
             string sendString = itemId.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -188,7 +189,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> CreateLocation(int locationId)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "locationControl");
             string sendString = locationId.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -203,7 +204,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> UpdateLocation(Location location)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "locationControl");
             string jsonString = JsonSerializer.Serialize(location, location.GetType());
             StringContent content = new StringContent(jsonString);
             HttpResponseMessage message = await client.PostAsync(webService, content);
@@ -217,7 +218,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> DeleteLocation(int locationId)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "locationControl");
             string sendString = locationId.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -232,7 +233,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> GetLocation(int locationId)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "locationControl");
             string sendString = locationId.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -247,7 +248,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> ReplenishLocation(int locationId)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "locationControl");
             string sendString = locationId.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -263,7 +264,7 @@ namespace ClientFramework.REST
         //not sure
         public async Task<HttpResponseMessage> TakeNewOrder(Order order)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "orderControl");
             string jsonString = "";
             jsonString = JsonSerializer.Serialize(order, order.GetType());
             StringContent content = new StringContent(jsonString);
@@ -274,7 +275,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> FinalizePicking(int id)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "orderControl");
             string sendString = id.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -289,7 +290,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> CancelOrder(int id)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "orderControl");
             string sendString = id.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -304,7 +305,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> QueueNewOrder(Order order, bool isHigh)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "orderControl");
             string sendString = order.ToString() + "#" + isHigh.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -319,7 +320,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> DeleteOrder(int id)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "orderControl");
             string sendString = id.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -335,7 +336,7 @@ namespace ClientFramework.REST
         //not sure
         public async Task<HttpResponseMessage> ClearOrderQueue(Order order)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "orderControl");
             string sendString = order.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -350,7 +351,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> CheckOrderPosition(int id)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "orderControl");
             string sendString = id.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -365,7 +366,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> CutFromOrder(int itemId, int orderId)
         {
-            Uri webService = new Uri("");
+            Uri webService = new Uri(uriMain + "orderControl");
             string sendString = itemId.ToString() + "#" + orderId.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);

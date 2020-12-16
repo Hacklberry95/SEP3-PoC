@@ -10,7 +10,7 @@ using ServerFramework.Services;
 
 namespace ServerFramework.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/locationControl")]
     [ApiController]
     public class LocationController : ControllerBase
     {

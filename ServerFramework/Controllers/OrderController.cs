@@ -10,7 +10,7 @@ using ServerFramework.Logic;
 
 namespace ServerFramework.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/orderControl")]
     [ApiController]
     public class OrderController : ControllerBase
     {

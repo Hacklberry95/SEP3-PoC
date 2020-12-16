@@ -9,7 +9,7 @@ using ServerFramework.Services;
 
 namespace ServerFramework.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/itemControl")]
     [ApiController]
     public class ItemController : ControllerBase
     {
