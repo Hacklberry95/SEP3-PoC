@@ -50,7 +50,7 @@ namespace ClientFramework.REST
             else return null;
         }
 
-        public async Task<HttpResponseMessage> PostNewItem(Item item)
+        public async Task<HttpResponseMessage> AddNewItem(Item item)
         {
             Uri webService = new Uri("");
             string jsonString = "";
@@ -95,7 +95,289 @@ namespace ClientFramework.REST
             if (message.IsSuccessStatusCode) return message;
             else return null;
         }
+        
+        public async Task<HttpResponseMessage> ReceiveItem(int itemId, int count)
+        {
+            Uri webService = new Uri("");
+            string sendString = itemId.ToString() + "#" + count.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
 
+        public async Task<HttpResponseMessage> EditItem(int itemId, int count)
+        {
+            Uri webService = new Uri("");
+            string sendString = itemId.ToString() + "#" + count.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        public async Task<HttpResponseMessage> RemoveItem(int itemId)
+        {
+            Uri webService = new Uri("");
+            string sendString = itemId.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        public async Task<HttpResponseMessage> GetItem(int itemId)
+        {
+            Uri webService = new Uri("");
+            string sendString = itemId.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        public async Task<HttpResponseMessage> MarkItemAsDamaged(int itemId)
+        {
+            Uri webService = new Uri("");
+            string sendString = itemId.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        public async Task<HttpResponseMessage> AllocatePutaway(int itemId)
+        {
+            Uri webService = new Uri("");
+            string sendString = itemId.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        public async Task<HttpResponseMessage> CreateLocation(int locationId)
+        {
+            Uri webService = new Uri("");
+            string sendString = locationId.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        public async Task<HttpResponseMessage> UpdateLocation(Location location)
+        {
+            Uri webService = new Uri("");
+            string jsonString = JsonSerializer.Serialize(location, location.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        public async Task<HttpResponseMessage> DeleteLocation(int locationId)
+        {
+            Uri webService = new Uri("");
+            string sendString = locationId.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        public async Task<HttpResponseMessage> GetLocation(int locationId)
+        {
+            Uri webService = new Uri("");
+            string sendString = locationId.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        public async Task<HttpResponseMessage> ReplenishLocation(int locationId)
+        {
+            Uri webService = new Uri("");
+            string sendString = locationId.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        //not sure
+        public async Task<HttpResponseMessage> TakeNewOrder(Order order)
+        {
+            Uri webService = new Uri("");
+            string jsonString = "";
+            jsonString = JsonSerializer.Serialize(order, order.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode) return message;
+            else return null;
+        }
+        
+        public async Task<HttpResponseMessage> FinalizePicking(int id)
+        {
+            Uri webService = new Uri("");
+            string sendString = id.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        public async Task<HttpResponseMessage> CancelOrder(int id)
+        {
+            Uri webService = new Uri("");
+            string sendString = id.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        public async Task<HttpResponseMessage> QueueNewOrder(Order order, bool isHigh)
+        {
+            Uri webService = new Uri("");
+            string sendString = order.ToString() + "#" + isHigh.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        public async Task<HttpResponseMessage> DeleteOrder(int id)
+        {
+            Uri webService = new Uri("");
+            string sendString = id.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        //not sure
+        public async Task<HttpResponseMessage> ClearOrderQueue(Order order)
+        {
+            Uri webService = new Uri("");
+            string sendString = order.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        public async Task<HttpResponseMessage> CheckOrderPosition(int id)
+        {
+            Uri webService = new Uri("");
+            string sendString = id.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        public async Task<HttpResponseMessage> CutFromOrder(int itemId, int orderId)
+        {
+            Uri webService = new Uri("");
+            string sendString = itemId.ToString() + "#" + orderId.ToString();
+            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
         ~CustomHTTPRequests()
         {
             client = null;

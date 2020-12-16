@@ -39,7 +39,7 @@
         <button onclick="@CreateItem()">Create new item</button>
     </p>
     <p>
-        <button onclick="@AddMore()">Already existing item</button>
+        <button onclick="@EditItem()">Edit item</button>
     </p>
 </div>
 <div>
@@ -65,12 +65,12 @@
     public async Task CreateItem()
     {
         CustomHTTPRequests requests = new CustomHTTPRequests();
-        await requests.PostNewItem(item);
+        await requests.AddNewItem(item);
     }
-
-    public async Task AddMore()
+    
+    public async Task EditItem()
     {
         CustomHTTPRequests requests = new CustomHTTPRequests();
-        await requests.PostAddMoreItem(Id, Stock);
+        await requests.EditItem(Id, Stock);
     }
 }
