@@ -16,11 +16,10 @@ namespace ServerFramework.Logic
     public class HandleOrder
     {
         private Order order;
-        private OrderQueue queue;
 
         public HandleOrder()
         {
-            queue = null; //write queue getter
+            
         }
 
         public void LoadOrderToField(int id)
@@ -31,66 +30,67 @@ namespace ServerFramework.Logic
 
         public Order TakeNewOrder()
         {
-                int id = queue.Dequeue();
-                if (id == -1)
-                {
-                    return null;
-                }
-                else
-                {
-                    Order pick = new Order(new List<Item>(), new List<int>());
-                    //get full order, send to client
-                    pick.ChangeOrderState();
-                    return pick;
-                }
+            int id = OrderQueue.Dequeue();
+            if (id == -1)
+            {
+                return null;
+            }
+            else
+            {
+                Order pick = new Order(new List<Item>(), new List<int>());
+                SocketServiceImpl socket = new SocketServiceImpl();
+                pick = socket.GetOrder(id);
+                pick.ChangeOrderState();
+                return pick;
+            }
         }
 
         public void FinalizePicking(int id)
         {
-                LoadOrderToField(id);
-                List<int> containers = new List<int>();
-                List<int> containersCount = new List<int>();
-                //read containers from client, then free up client order
-                order.ChangeOrderState();
+            LoadOrderToField(id);
+            List<int> containers = new List<int>();
+            List<int> containersCount = new List<int>();
+            //read containers from client, then free up client order
+            order.ChangeOrderState();
         }
 
         public void CancelOrder(int id)
         {
-                queue.RemoveOrder(id);
-                DeleteOrder(id);
+            OrderQueue.RemoveOrder(id);
+            DeleteOrder(id);
         }
 
         public void LoadTruckOrder(int id)
         {
-                LoadOrderToField(id);
-                order.ChangeOrderState();
-                SocketServiceImpl socket = new SocketServiceImpl();
-                string json = JsonSerializer.Serialize<int>(id);
-                socket.LoadTruckOrder(json);
+            LoadOrderToField(id);
+            order.ChangeOrderState();
+            SocketServiceImpl socket = new SocketServiceImpl();
+            string json = JsonSerializer.Serialize<int>(id);
+            socket.LoadTruckOrder(json);
         }
 
         public void QueueNewOrder(Order order, bool isHigh)
         {
-            if (isHigh) 
-                queue.EnqueueHighpriority(order.Id);
-            else queue.Enque(order.Id);
+            if (isHigh)
+                OrderQueue.EnqueueHighpriority(order.Id);
+            else OrderQueue.Enque(order.Id);
         }
 
         public void DeleteOrder(int id)
         { 
-                SocketServiceImpl socket = new SocketServiceImpl();
-                string json = JsonSerializer.Serialize<int>(id);
-                socket.DeleteOrder(json);
+            SocketServiceImpl socket = new SocketServiceImpl();
+            string json = JsonSerializer.Serialize<int>(id);
+            socket.DeleteOrder(json);
         }
 
         public void ClearOrderQueue()
         {
-            queue.Clear();
+            OrderQueue.Clear();
         }
 
         public int CheckOrderPosition(int id)
         {
-            return queue.Contains(id);
+            return OrderQueue.Contains(id);
         }
 
         public void CutFromOrder(int itemId, int orderId)

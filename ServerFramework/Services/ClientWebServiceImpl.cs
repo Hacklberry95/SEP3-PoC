@@ -140,5 +140,53 @@ namespace ServerFramework.Services
             return items.GetUser(username);
         }
 
+        public async Task<Order> TakeNewOrder()
+        {
+            HandleOrder order = new HandleOrder();
+            return order.TakeNewOrder();
+        }
+
+        public async Task FinalizePicking(int id)
+        {
+            HandleOrder order = new HandleOrder();
+            order.FinalizePicking(id);
+        }
+
+        public async Task CancelOrder(int id)
+        {
+            HandleOrder order = new HandleOrder();
+            order.CancelOrder(id);
+        }
+
+        public async Task QueueNewOrder(Order order, bool isHigh)
+        {
+            HandleOrder handler = new HandleOrder();
+            handler.QueueNewOrder(order, isHigh);
+        }
+
+        public async Task DeleteOrder(int id)
+        {
+            HandleOrder handler = new HandleOrder();
+            handler.DeleteOrder(id);
+        }
+
+        public async Task ClearOrderQueue()
+        {
+            HandleOrder handler = new HandleOrder();
+            handler.ClearOrderQueue();
+        }
+
+        public async Task<int> CheckOrderPosition(int id)
+        {
+            HandleOrder handler = new HandleOrder();
+            return handler.CheckOrderPosition(id);
+        }
+
+        public async Task CutFromOrder(int itemId, int orderId)
+        {
+            HandleOrder handler = new HandleOrder();
+            handler.CutFromOrder(itemId, orderId);
+        }
+
     }
 }

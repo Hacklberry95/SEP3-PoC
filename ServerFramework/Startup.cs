@@ -28,6 +28,7 @@ namespace ServerFramework
         {
             services.AddControllers();
             services.AddScoped<ISocketService, SocketServiceImpl>();
+            services.AddSingleton<OrderQueue>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

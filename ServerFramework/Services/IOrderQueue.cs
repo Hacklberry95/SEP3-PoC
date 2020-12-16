@@ -1,5 +1,8 @@
-﻿namespace ServerFramework.Services
+﻿using System;
+
+namespace ServerFramework.Services
 {
+    [Obsolete]
     public interface IOrderQueue
     {
         void Clear();
