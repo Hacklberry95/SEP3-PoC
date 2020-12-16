@@ -51,5 +51,61 @@ namespace ServerFramework.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
+        [HttpPatch]
+        public async Task<ActionResult> EditItem(Item item)
+        {
+            try
+            {
+                await client.EditItem(item);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> RemoveItem(int id)
+        {
+            try
+            {
+                await client.RemoveItem(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetItem(int id)
+        {
+            try
+            {
+                Item item = await client.GetItem(id);
+                return Ok(item);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> MarkItemAsDamaged(int id, int count)
+        {
+            try
+            {
+                await client.MarkItemAsDamaged(id, count);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
     }
 }
