@@ -35,7 +35,7 @@ namespace ServerFramework.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPatch]
         public async Task<ActionResult> FinalizePicking(int id)
         {
             try
@@ -80,7 +80,7 @@ namespace ServerFramework.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpDelete]
         public async Task<ActionResult> DeleteOrder(int id)
         {
             try
