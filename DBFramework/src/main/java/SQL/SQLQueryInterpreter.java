@@ -182,4 +182,13 @@ public class SQLQueryInterpreter
         c.close();
         return loc;
     }
+
+    public void MarkItemAsDamaged(int id, int itemCounts) throws SQLException
+    {
+        String query = "";
+        Statement st = c.createStatement();
+        st.executeUpdate(query);
+        st.close();
+        c.close();
+    }
 }

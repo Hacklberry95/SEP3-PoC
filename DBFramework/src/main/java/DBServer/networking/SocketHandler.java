@@ -66,7 +66,7 @@ public class SocketHandler implements Runnable
                 {
                     Gson gson = new Gson();
                     Item item = gson.fromJson(arr[1], Item.class);
-                    MarkItemAsDamaged(item);
+                    MarkItemAsDamaged(item.getId());
                 }
                 else if(arr[0].equals("AddItem"))
                 {
@@ -149,6 +149,9 @@ public class SocketHandler implements Runnable
         }
     }
 
+    private void MarkItemAsDamaged(int id) {
+    }
+
     private String rec(InputStream is) throws IOException
     {
         //stolen from stack overflow
@@ -209,10 +212,10 @@ public class SocketHandler implements Runnable
         interpreter.addItem(item);
     }
 
-    public void MarkItemAsDamaged(Item item) throws IOException, SQLException
+    public void MarkItemAsDamaged(int id, int itemCounts) throws IOException, SQLException
     {
         SQLQueryInterpreter interpreter = new SQLQueryInterpreter();
-        //Removes from the stock table and moves the item to the damaged table
+        interpreter.MarkItemAsDamaged(id, itemCounts);
     }
 
     public void GetOrder(int id) throws IOException, SQLException
