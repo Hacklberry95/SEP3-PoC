@@ -21,12 +21,9 @@ namespace ServerFramework.Logic
         /// <param name="username">Username.</param>
         public void AddUser(User userParam)
         {
-            if (user.Roles.OfType<PickingManager>().Any())
-            {
                 SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Serialize<User>(userParam);
                 socket.AddUser(json);
-            }
         }
 
         /// <summary>
@@ -35,12 +32,9 @@ namespace ServerFramework.Logic
         /// <param name="userParam">User parameter.</param>
         public void UpdateUser(User userParam)
         {
-            if (user.Roles.OfType<PickingManager>().Any())
-            {
                 SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Serialize<User>(userParam);
                 socket.UpdateUser(json);
-            }
         }
 
         /// <summary>
@@ -49,12 +43,9 @@ namespace ServerFramework.Logic
         /// <param name="username">Username.</param>
         public void RemoveUser(string username)
         {
-            if (user.Roles.OfType<PickingManager>().Any())
-            {
                 SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Serialize<string>(username);
                 socket.RemoveUser(json);
-            }
         }
 
         /// <summary>

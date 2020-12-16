@@ -16,12 +16,10 @@ namespace ServerFramework.Logic
     public class HandleOrder
     {
         private Order order;
-        private User user;
         private OrderQueue queue;
 
-        public HandleOrder(User user)
+        public HandleOrder()
         {
-            this.user = user;
             queue = null; //write queue getter
         }
 
@@ -33,8 +31,6 @@ namespace ServerFramework.Logic
 
         public Order TakeNewOrder()
         {
-            if (user.Roles.OfType<Picker>().Any())
-            {
                 int id = queue.Dequeue();
                 if (id == -1)
                 {
@@ -47,41 +43,30 @@ namespace ServerFramework.Logic
                     pick.ChangeOrderState();
                     return pick;
                 }
-            }
-            else return null;
         }
 
         public void FinalizePicking(int id)
         {
-            if (user.Roles.OfType<Picker>().Any())
-            {
                 LoadOrderToField(id);
                 List<int> containers = new List<int>();
                 List<int> containersCount = new List<int>();
                 //read containers from client, then free up client order
                 order.ChangeOrderState();
-            }
         }
 
         public void CancelOrder(int id)
         {
-            if (user.Roles.OfType<PickingManager>().Any())
-            {
                 queue.RemoveOrder(id);
                 DeleteOrder(id);
-            }
         }
 
         public void LoadTruckOrder(int id)
         {
-            if (user.Roles.OfType<Loader>().Any())
-            {
                 LoadOrderToField(id);
                 order.ChangeOrderState();
                 SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Serialize<int>(id);
                 socket.LoadTruckOrder(json);
-            }
         }
 
         public void QueueNewOrder(Order order, bool isHigh)
@@ -93,12 +78,9 @@ namespace ServerFramework.Logic
 
         public void DeleteOrder(int id)
         { 
-            if (user.Roles.OfType<PickingManager>().Any())
-            {
                 SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Serialize<int>(id);
                 socket.DeleteOrder(json);
-            }
         }
 
         public void ClearOrderQueue()

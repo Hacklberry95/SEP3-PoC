@@ -15,7 +15,6 @@ namespace ServerFramework.Logic
     {
         private Item item;
         private Order order;
-        private User user;
 
         /// <summary>
         /// Adds new item in the DB.
@@ -23,12 +22,9 @@ namespace ServerFramework.Logic
         /// <param name="item">The item to be added to the DB.</param>
         public void AddNewItem(Item item)
         {
-            if (user.Roles.OfType<InboundManager>().Any())
-            {
-                SocketServiceImpl socket = new SocketServiceImpl();
+            SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Serialize<Item>(item);
                 socket.AddNewItem(json);
-            }
         }
 
         /// <summary>
@@ -37,12 +33,9 @@ namespace ServerFramework.Logic
         /// <param name="item">Item object.</param>
         public void EditItem(Item item)
         {
-            if (user.Roles.OfType<InboundManager>().Any())
-            {
                 SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Serialize<Item>(item);
                 socket.EditItem(json);
-            }
         }
 
         /// <summary>
@@ -51,12 +44,9 @@ namespace ServerFramework.Logic
         /// <param name="item">Item object.</param>
         public void RemoveItem(int itemID)
         {
-            if (user.Roles.OfType<InboundManager>().Any())
-            {
                 SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Serialize<int>(itemID);
                 socket.RemoveItem(json);
-            }
         }
 
         /// <summary>
@@ -78,12 +68,9 @@ namespace ServerFramework.Logic
         /// <param name="id">Item ID.</param>
         public void MarkItemAsDamaged(int id)
         {
-            if (user.Roles.OfType<Troubleshooter>().Any())
-            {
                 SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Serialize<int>(id);
                 socket.MarkItemAsDamaged(json);
-            }
         }
 
         /// <summary>
@@ -93,13 +80,10 @@ namespace ServerFramework.Logic
         /// <param name="itemCount">The amount of items to return per any type.</param>
         public void ReturnItems(int itemID, int itemCount)
         {
-            if (user.Roles.OfType<Troubleshooter>().Any())
-            {
-                string intToJson = itemID + "#" + itemCount;
+                string intToJson = itemIDs + "#" + itemCounts;
                 SocketServiceImpl socket = new SocketServiceImpl();
                 string json = JsonSerializer.Serialize<string>(intToJson);
                 socket.ReturnItems(json);
-            }
         }
     }
 }
