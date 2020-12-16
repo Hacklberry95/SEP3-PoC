@@ -25,7 +25,8 @@ namespace ServerFramework.Logic
 
         public void LoadOrderToField(int id)
         {
-            //set current order
+            SocketServiceImpl socket = new SocketServiceImpl();
+            order = socket.GetOrder(id);
         }
 
         public Order TakeNewOrder()

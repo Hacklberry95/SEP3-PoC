@@ -6,54 +6,66 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using ServerFramework.Authorization;
 using ServerFramework.Data;
+using ServerFramework.Logic;
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
 
 namespace ServerFramework.Services
 {
     public class ClientWebServiceImpl : ClientWebService
     {
-        ISocketService socket;
-
-        public ClientWebServiceImpl()
+        public async Task<User> ValidateUser(string username, string password)
         {
-            socket = new SocketServiceImpl();
+            ISocketService socket = new SocketServiceImpl();
+            User user = socket.ValidateUser(username, password);
+            return user;
         }
 
-        public async Task ConfirmOrder(Order order)
-        {
-            int i = order.Id;
-            await ConfirmOrder(i);
-        }
-        
-        public async Task ReceiveItem(Item item)
-        {
-            int i = item.Id;
-            await ReceiveItem(i);
-        }
-
+        /// <summary>
+        /// Confirm order loading.
+        /// </summary>
+        /// <param name="id">Order id</param>
+        /// <returns>Nothing.</returns>
         public async Task ConfirmOrder(int id)
         {
             System.Diagnostics.Debug.WriteLine("ClientWebServiceConfirm");
-            HttpClient httpClient = new HttpClient();
-            Uri DataURI = new Uri("http://localhost:5001/ServerFramework/api/dataControl");
-            string serialId = JsonSerializer.Serialize(id, id.GetType());
-            StringContent content = new StringContent(serialId);
-            await httpClient.PostAsync(DataURI, content);
+            HandleOrder handleOrders = new HandleOrder(null);
+            handleOrders.LoadTruckOrder(id);
         }
         
-        public async Task ReceiveItem(int id)
+        /// <summary>
+        /// Receive items into the warehouse.
+        /// </summary>
+        /// <param name="id">id of item to receive</param>
+        /// <param name="count">Count of item to receive</param>
+        /// <returns>Nothing.</returns>
+        public async Task ReceiveItem(int id, int count)
         {
             System.Diagnostics.Debug.WriteLine("ClientWebServiceConfirm");
-            HttpClient httpClient = new HttpClient();
-            Uri DataURI = new Uri("http://localhost:5001/ServerFramework/api/dataControl");
-            string serialId = JsonSerializer.Serialize(id, id.GetType());
-            StringContent content = new StringContent(serialId);
-            await httpClient.PostAsync(DataURI, content);
+            HandleItems items = new HandleItems();
+            items.ReturnItems(id, count);
         }
 
-        public async Task<User> ValidateUser(string username, string password)
+        /// <summary>
+        /// Adds a new item to database.
+        /// </summary>
+        /// <param name="item">Item to be added.</param>
+        /// <returns>Nothing.</returns>
+        public async Task AddNewItem(Item item)
         {
-            User user = socket.ValidateUser(username, password);
-            return user;
+            HandleItems items = new HandleItems();
+            items.AddNewItem(item);
+        }
+
+        public async Task EditItem(Item item)
+        {
+            HandleItems items = new HandleItems();
+            items.EditItem(item);
+        }
+
+        public async Task RemoveItem(int id)
+        {
+            HandleItems items = new HandleItems();
+            items.RemoveItem(id);
         }
     }
 }

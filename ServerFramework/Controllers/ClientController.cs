@@ -14,15 +14,18 @@ namespace ServerFramework.Controllers
     [ApiController]
     public class ClientController : ControllerBase
     {
-        ClientWebService client;
-        private ISocketService SocketService;
+        private ClientWebService client;
 
         public ClientController()
         {
             client = new ClientWebServiceImpl();
-            SocketService = new SocketServiceImpl();
         }
 
+        /// <summary>
+        /// Loader posts order confirmation
+        /// </summary>
+        /// <param name="orderId">Id of order to confirm</param>
+        /// <returns>HTTP status code 200 or 500.</returns>
         [HttpPost]
         public async Task<ActionResult> PostConfirmation(int orderId)
         {
@@ -37,51 +40,5 @@ namespace ServerFramework.Controllers
                 return StatusCode(500, e.Message);
             }
         }
-        
-
-        [HttpPost]
-        public async Task<ActionResult> PostConfirmation(Order order)
-        {
-            try
-            {
-                await client.ConfirmOrder(order);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return StatusCode(500, e.Message);
-            }
-        }
-        
-        [HttpPost]
-        public async Task<ActionResult> PostConfirmation(Item item)
-        {
-            try
-            {
-                await client.ReceiveItem(item);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return StatusCode(500, e.Message);
-            }
-        }
-/*
-        [HttpPost]
-        public async Task<ActionResult> PostConfirmation(int itemId)
-        {
-            try
-            {
-                await client.ReceiveItem(itemId);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return StatusCode(500, e.Message);
-            }
-        }*/
     }
 }
