@@ -232,6 +232,12 @@ namespace ServerFramework.Services
             string transmit = "LoadTruckOrder@" + jsonId;
             JustTransmit(transmit);
         }
+
+        public void FinalizePicking(string jsonId)
+        {
+            string transmit = "FinalizePick@" + jsonId;
+            JustTransmit(transmit);
+        }
         
         public void ReturnItems(string jsonId)
         {

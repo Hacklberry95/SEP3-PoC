@@ -51,7 +51,9 @@ namespace ServerFramework.Logic
             List<int> containers = new List<int>();
             List<int> containersCount = new List<int>();
             //read containers from client, then free up client order
+            SocketServiceImpl socket = new SocketServiceImpl();
             order.ChangeOrderState();
+            socket.FinalizePicking(JsonSerializer.Serialize(id, Int32.MaxValue.GetType()));
         }
 
         public void CancelOrder(int id)
