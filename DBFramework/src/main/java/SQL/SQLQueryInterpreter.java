@@ -130,7 +130,8 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
         c.close();
     }
 
-    public void cutFromOrder(int id, int itemID, int itemCount) throws SQLException
+    //nonexistent sockets
+    /*public void cutFromOrder(int id, int itemID, int itemCount) throws SQLException
     {
         //write query
         String query = "";
@@ -138,16 +139,16 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
         st.execute(query);
         st.close();
         c.close();
-    }
+    }*/
 
-    public void allocPutaway(String locationID, int itemID) throws SQLException
+    /*public void allocPutaway(String locationID, int itemID) throws SQLException //deprecated
     {
         String query = "";
         Statement st = c.createStatement();
         st.execute(query);
         st.close();
         c.close();
-    }
+    }*/
 
     public void updateLocation(Location loc) throws SQLException
     {

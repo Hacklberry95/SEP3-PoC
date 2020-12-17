@@ -18,8 +18,8 @@ public interface ISQLQueryInterpreter {
     boolean getUserBoolean(String username) throws SQLException;
     void finalizePick(int id) throws SQLException;
     void cancelOrder(int id) throws SQLException;
-    void cutFromOrder(int id, int itemID, int itemCount) throws SQLException;
-    void allocPutaway(String locationID, int itemID) throws SQLException;
+    //void cutFromOrder(int id, int itemID, int itemCount) throws SQLException;
+    //void allocPutaway(String locationID, int itemID) throws SQLException;
     void updateLocation(Location loc) throws SQLException;
     void deleteLocation(String id) throws SQLException;
     void addLocation(Location loc) throws SQLException;
