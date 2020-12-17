@@ -82,7 +82,7 @@ namespace ServerFramework.Controllers
             }
         }
 
-        [Route("/get")]
+        [Route("/get?id={id}")]
         [HttpGet]
         public async Task<ActionResult> GetItem([FromQuery] int id)
         {

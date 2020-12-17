@@ -21,6 +21,7 @@ namespace ServerFramework.Controllers
             client = new ClientWebServiceImpl();
         }
 
+        [Route("/takeOrder")]
         [HttpGet]
         public async Task<ActionResult> TakeNewOrder()
         {
@@ -37,7 +38,7 @@ namespace ServerFramework.Controllers
         }
 
         [HttpPatch]
-        public async Task<ActionResult> FinalizePicking(int id)
+        public async Task<ActionResult> FinalizePicking([FromBody] int id)
         {
             try
             {
@@ -51,8 +52,9 @@ namespace ServerFramework.Controllers
             }
         }
 
+        [Route("/cancel")]
         [HttpPost]
-        public async Task<ActionResult> CancelOrder(int id)
+        public async Task<ActionResult> CancelOrder([FromBody] int id)
         {
             try
             {
@@ -65,12 +67,21 @@ namespace ServerFramework.Controllers
                 return StatusCode(500, e.Message);
             }
         }
-
+        
+        [Route("/queueNew")]
         [HttpPost]
-        public async Task<ActionResult> QueueNewOrder(Order order, bool isHigh)
+        public async Task<ActionResult> QueueNewOrder([FromBody] string content)
         {
             try
             {
+                string[] arr = content.Split("#");
+                bool isHigh = false;
+                Order order;
+                if (arr[1] == true.ToString())
+                {
+                    isHigh = true;
+                }
+                order = Newtonsoft.Json.JsonConvert.DeserializeObject<Order>(arr[0]);
                 await client.QueueNewOrder(order, isHigh);
                 return Ok();
             }
@@ -81,8 +92,8 @@ namespace ServerFramework.Controllers
             }
         }
 
-        [HttpDelete]
-        public async Task<ActionResult> DeleteOrder(int id)
+        [HttpPut]
+        public async Task<ActionResult> DeleteOrder([FromBody] int id)
         {
             try
             {
@@ -96,7 +107,8 @@ namespace ServerFramework.Controllers
             }
         }
 
-        [HttpHead]
+        [Route("/clearQueue")]
+        [HttpDelete]
         public async Task<ActionResult> ClearOrderQueue()
         {
             try
@@ -111,8 +123,9 @@ namespace ServerFramework.Controllers
             }
         }
 
+        [Route("/position")]
         [HttpGet]
-        public async Task<ActionResult> CheckOrderPosition(int id)
+        public async Task<ActionResult> CheckOrderPosition([FromQuery] int id)
         {
             try
             {
@@ -126,12 +139,14 @@ namespace ServerFramework.Controllers
             }
         }
 
-        [HttpHead]
-        public async Task<ActionResult> CutFromOrder(int itemId, int orderId)
+        [Route("/cutFromOrder")]
+        [HttpPost]
+        public async Task<ActionResult> CutFromOrder([FromBody] string content)
         {
             try
             {
-                await client.CutFromOrder(itemId, orderId);
+                string[] arr = content.Split("#");
+                await client.CutFromOrder(Int32.Parse(arr[0]), Int32.Parse(arr[1]));
                 return Ok();
             }
             catch (Exception e)

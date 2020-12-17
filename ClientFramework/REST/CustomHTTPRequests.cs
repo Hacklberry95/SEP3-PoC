@@ -26,7 +26,7 @@ namespace ClientFramework.REST
             {
                 System.Diagnostics.Debug.WriteLine("PostConfirmation");
                 Uri webService = new Uri(uriMain + "clientControl");
-                string jsonString = JsonSerializer.Serialize(orderID.ToString(), String.Empty.GetType());
+                string jsonString = JsonSerializer.Serialize(orderID, Int32.MaxValue.GetType());
                 StringContent content = new StringContent(jsonString);
                 HttpResponseMessage message = await client.PostAsync(webService, content);
                 if (message.IsSuccessStatusCode) return message;
@@ -248,31 +248,31 @@ namespace ClientFramework.REST
             if (message.IsSuccessStatusCode)
             {
                 string json = await message.Content.ReadAsStringAsync();
-
+                List<string> list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(json);
+                return list;
             }
             else 
                 return null;
         }
         
-        //not sure
-        public async Task<HttpResponseMessage> TakeNewOrder(Order order)
+        public async Task<Order> TakeNewOrder()
         {
-            Uri webService = new Uri(uriMain + "orderControl");
-            string jsonString = "";
-            jsonString = JsonSerializer.Serialize(order, order.GetType());
-            StringContent content = new StringContent(jsonString);
-            HttpResponseMessage message = await client.PostAsync(webService, content);
-            if (message.IsSuccessStatusCode) return message;
+            Uri webService = new Uri(uriMain + "orderControl/takeOrder");
+            HttpResponseMessage message = await client.GetAsync(webService);
+            if (message.IsSuccessStatusCode)
+            {
+                Order order = Newtonsoft.Json.JsonConvert.DeserializeObject<Order>(await message.Content.ReadAsStringAsync());
+                return order;
+            }
             else return null;
         }
         
         public async Task<HttpResponseMessage> FinalizePicking(int id)
         {
             Uri webService = new Uri(uriMain + "orderControl");
-            string sendString = id.ToString();
-            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            string jsonString = JsonSerializer.Serialize(id, Int32.MaxValue.GetType());
             StringContent content = new StringContent(jsonString);
-            HttpResponseMessage message = await client.PostAsync(webService, content);
+            HttpResponseMessage message = await client.PatchAsync(webService, content);
             if (message.IsSuccessStatusCode)
             {
                 return message;
@@ -284,8 +284,7 @@ namespace ClientFramework.REST
         public async Task<HttpResponseMessage> CancelOrder(int id)
         {
             Uri webService = new Uri(uriMain + "orderControl");
-            string sendString = id.ToString();
-            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            string jsonString = JsonSerializer.Serialize(id, Int32.MaxValue.GetType());
             StringContent content = new StringContent(jsonString);
             HttpResponseMessage message = await client.PostAsync(webService, content);
             if (message.IsSuccessStatusCode)
@@ -298,9 +297,10 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> QueueNewOrder(Order order, bool isHigh)
         {
-            Uri webService = new Uri(uriMain + "orderControl");
-            string sendString = order.ToString() + "#" + isHigh.ToString();
-            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            Uri webService = new Uri(uriMain + "orderControl/queueNew");
+            string orderJson = Newtonsoft.Json.JsonConvert.SerializeObject(order);
+            string boolJson = Newtonsoft.Json.JsonConvert.SerializeObject(isHigh.ToString());
+            string jsonString = orderJson + "#" + boolJson;
             StringContent content = new StringContent(jsonString);
             HttpResponseMessage message = await client.PostAsync(webService, content);
             if (message.IsSuccessStatusCode)
@@ -314,10 +314,9 @@ namespace ClientFramework.REST
         public async Task<HttpResponseMessage> DeleteOrder(int id)
         {
             Uri webService = new Uri(uriMain + "orderControl");
-            string sendString = id.ToString();
-            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            string jsonString = JsonSerializer.Serialize(id, Int32.MaxValue.GetType());
             StringContent content = new StringContent(jsonString);
-            HttpResponseMessage message = await client.PostAsync(webService, content);
+            HttpResponseMessage message = await client.PutAsync(webService, content);
             if (message.IsSuccessStatusCode)
             {
                 return message;
@@ -326,40 +325,32 @@ namespace ClientFramework.REST
                 return null;
         }
         
-        //not sure
-        public async Task<HttpResponseMessage> ClearOrderQueue(Order order)
+        public async Task<HttpResponseMessage> ClearOrderQueue()
         {
-            Uri webService = new Uri(uriMain + "orderControl");
-            string sendString = order.ToString();
-            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
-            StringContent content = new StringContent(jsonString);
-            HttpResponseMessage message = await client.PostAsync(webService, content);
+            Uri webService = new Uri(uriMain + "orderControl/clearQueue");
+            HttpResponseMessage message = await client.DeleteAsync(webService);
             if (message.IsSuccessStatusCode)
             {
                 return message;
             }
-            else 
-                return null;
+            else return null;
         }
         
-        public async Task<HttpResponseMessage> CheckOrderPosition(int id)
+        public async Task<int> CheckOrderPosition(int id)
         {
-            Uri webService = new Uri(uriMain + "orderControl");
-            string sendString = id.ToString();
-            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
-            StringContent content = new StringContent(jsonString);
-            HttpResponseMessage message = await client.PostAsync(webService, content);
+            Uri webService = new Uri(uriMain + $"orderControl/position?id={id}");
+            HttpResponseMessage message = await client.GetAsync(webService);
             if (message.IsSuccessStatusCode)
             {
-                return message;
+                string toInt = await message.Content.ReadAsStringAsync();
+                return Int32.Parse(toInt);
             }
-            else 
-                return null;
+            else return -1;
         }
         
         public async Task<HttpResponseMessage> CutFromOrder(int itemId, int orderId)
         {
-            Uri webService = new Uri(uriMain + "orderControl");
+            Uri webService = new Uri(uriMain + "orderControl/cutFromOrder");
             string sendString = itemId.ToString() + "#" + orderId.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
