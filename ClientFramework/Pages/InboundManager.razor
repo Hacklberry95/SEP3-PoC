@@ -64,13 +64,16 @@
 
     public async Task CreateItem()
     {
+        item = new Item(Name, Weight, Width, Length, Height, Description, Stock);
         CustomHTTPRequests requests = new CustomHTTPRequests();
         await requests.AddNewItem(item);
     }
-    
+
     public async Task EditItem()
     {
+        item = new Item(Name, Weight, Width, Length, Height, Description, Stock);
+        item.Id = Id;
         CustomHTTPRequests requests = new CustomHTTPRequests();
-        await requests.EditItem(Id, Stock);
+        await requests.EditItem(item);
     }
 }
