@@ -2,14 +2,10 @@
 @using ClientFramework.Data
 @using ClientFramework.REST
 
-@inject Order Order
-@inject Item Item
-@inject Location Location
-
 <h3>Picking</h3>
 
 <p>
-    @if (Order == null)
+    @if (order == null)
     {
         <p onload="@TakeOrder()"><em>Loading...</em></p>
     }
