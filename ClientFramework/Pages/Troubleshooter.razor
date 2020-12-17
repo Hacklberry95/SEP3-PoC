@@ -22,12 +22,12 @@
     public async Task MarkDamaged()
     {
         CustomHTTPRequests requests = new CustomHTTPRequests();
-        await requests.PostConfirmation(itemId);
+        await requests.MarkItemAsDamaged(itemId, itemCount);
     }
     
     public async Task CancelOrder()
     {
         CustomHTTPRequests requests = new CustomHTTPRequests();
-        await requests.PostConfirmation(orderId);
+        await requests.CancelOrder(orderId);
     }
 }
