@@ -1,7 +1,42 @@
 ﻿@page "/ManageUsers"
+@using ClientFramework.REST
+@using ClientFramework.Authorization
 <h3>ManageUsers</h3>
 
+<p>
+    <label>Username: </label><input bind-value="@username" name="users">
+</p>
+<p>
+    <label>Password: </label><input bind-value="@password" name="password">
+</p>
+<p>
+    <button onclick="@AddUser()">ADD</button>
+    <button onclick="@RemoveUser()">REMOVE</button>
+    <button onclick="@EditUser()">EDIT</button>
+</p>
 
 @code {
-    
+
+    private string username;
+    private string password;
+    private User user;
+
+    private async Task AddUser()
+    {
+        CustomHTTPRequests requests = new CustomHTTPRequests();
+        await requests.AddUser(user);
+    }
+
+    private async Task RemoveUser()
+    {
+        CustomHTTPRequests requests = new CustomHTTPRequests();
+        await requests.DeleteUser(username);
+    }
+
+    private async Task EditUser()
+    {
+        CustomHTTPRequests requests = new CustomHTTPRequests();
+        await requests.UpdateUser(user);
+    }
+
 }
