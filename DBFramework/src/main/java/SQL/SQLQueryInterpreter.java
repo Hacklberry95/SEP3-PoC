@@ -197,7 +197,7 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
     }
     public void returnItem(int id, int count) throws SQLException
     {
-        String query = "UPDATE stock SET \"\\\"itemCounts\\\"\" = (SELECT (\"\\\"itemCounts\\\"\" - " + count + ") FROM stock WHERE item = "+id+")" +
+        String query = "UPDATE stock SET \"\\\"itemCounts\\\"\" = (SELECT (\"\\\"itemCounts\\\"\" + " + count + ") FROM stock WHERE item = "+id+")" +
                 "WHERE item = "+id+";";
         Statement st = c.createStatement();
         st.executeUpdate(query);
