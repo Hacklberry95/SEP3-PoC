@@ -11,7 +11,7 @@
 <p>
     @if (Order == null)
     {
-        <p><em>Loading...</em></p>
+        <p onload="@TakeOrder()"><em>Loading...</em></p>
     }
     else
     {
@@ -29,10 +29,10 @@
             @for(var i = 0; i < order.Items.Count; i++)
             {
                 <tr>
-                    <td>@order.Locations</td>
+                    <td>@order.Locations[i]</td>
                     <td>@order.Id</td>
-                    <td>@order.Items</td>
-                    <td>@order.ItemCounts</td>
+                    <td>@order.Items[i]</td>
+                    <td>@order.ItemCounts[i]</td>
                 </tr>
             }
             </tbody>
@@ -40,9 +40,9 @@
         <input type="number" id="id" name="id" @bind-value="itemId">
         <input type="number" id="count" name="count" @bind-value="itemCount">
         <button onclick="@ConfirmPick()">Confirm pick</button>
-        //<button onclick="@SkipItem()">Skip</button>
     }
 </p>
+
 @code {
     private Order order;
     private int itemId;
@@ -51,11 +51,12 @@
     public async Task ConfirmPick()
     {
         CustomHTTPRequests requests = new CustomHTTPRequests();
-        await requests.PostConfirmation(itemId);
+        await requests.FinalizePicking(order.Id);
     }
 
-    //public void SkipItem()
-    //{
-    //    
-    //}
+    public async Task TakeOrder()
+    {
+        CustomHTTPRequests requests = new CustomHTTPRequests();
+        order = await requests.TakeNewOrder();
+    }
 }
