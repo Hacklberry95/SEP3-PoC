@@ -10,7 +10,7 @@ using ServerFramework.Services;
 
 namespace ServerFramework.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/userControl")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -22,7 +22,7 @@ namespace ServerFramework.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddUser(User user)
+        public async Task<ActionResult> AddUser([FromBody] User user)
         {
             try
             {
@@ -49,8 +49,9 @@ namespace ServerFramework.Controllers
             }
         }
 
-        [HttpDelete]
-        public async Task<ActionResult> DeleteUser(string id)
+        [Route("/deleteUser")]
+        [HttpPost]
+        public async Task<ActionResult> DeleteUser([FromBody] string id)
         {
             try
             {
@@ -63,8 +64,9 @@ namespace ServerFramework.Controllers
             }
         }
 
+        [Route("/get")]
         [HttpGet]
-        public async Task<ActionResult> GetUser(string id)
+        public async Task<ActionResult> GetUser([FromQuery] string id)
         {
             try
             {

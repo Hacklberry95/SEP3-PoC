@@ -362,7 +362,62 @@ namespace ClientFramework.REST
             else 
                 return null;
         }
-        
+
+        public async Task<HttpResponseMessage> AddUser(User user)
+        {
+            Uri webService = new Uri(uriMain + "userControl");
+            string jsonString = JsonSerializer.Serialize(user, user.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PostAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else
+                return null;
+        }
+
+        public async Task<HttpResponseMessage> UpdateUser(User user)
+        {
+            Uri webService = new Uri(uriMain + "userControl");
+            string jsonString = JsonSerializer.Serialize(user, user.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PatchAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else
+                return null;
+        }
+
+        public async Task<HttpResponseMessage> DeleteUser(string id)
+        {
+            Uri webService = new Uri(uriMain + "userControl/deleteUser");
+            string jsonString = JsonSerializer.Serialize(id, id.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PatchAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else
+                return null;
+        }
+
+        public async Task<User> GetUser(string id)
+        {
+            Uri webService = new Uri(uriMain + $"userControl/get?id={id}");
+            HttpResponseMessage message = await client.GetAsync(webService);
+            if (message.IsSuccessStatusCode)
+            {
+                string json = await message.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<User>(json);
+            }
+            else
+                return null;
+        }
+
         ~CustomHTTPRequests()
         {
             client = null;
