@@ -25,9 +25,10 @@
             @for(var i = 0; i < order.Items.Count; i++)
             {
                 <tr>
-                    <td>@order.Locations[i]</td>
+                    <td>@order.Locations[i].getFullId()</td>
                     <td>@order.Id</td>
-                    <td>@order.Items[i]</td>
+                    <td>@order.Items[i].Id</td>
+                    <td>@order.Items[i].Name</td>
                     <td>@order.ItemCounts[i]</td>
                 </tr>
             }
