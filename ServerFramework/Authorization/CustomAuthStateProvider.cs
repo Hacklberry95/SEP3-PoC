@@ -10,6 +10,7 @@ using ServerFramework.Services;
 
 namespace ServerFramework.Authorization
 {
+    [Obsolete]
     public class CustomAuthStateProvider : AuthenticationStateProvider
     {
         private readonly IJSRuntime jsRuntime;

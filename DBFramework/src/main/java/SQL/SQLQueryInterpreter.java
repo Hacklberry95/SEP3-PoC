@@ -158,7 +158,7 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
         c.close();
     }
 
-    public void deleteLocation(int id) throws SQLException
+    public void deleteLocation(String id) throws SQLException
     {
         String query = "DELETE FROM locations WHERE (id = " + id + ");";
         Statement st = c.createStatement();
@@ -176,7 +176,7 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
         c.close();
     }
 
-    public Location getLocation(int id) throws SQLException
+    public Location getLocation(String id) throws SQLException
     {
         String query = "SELECT * FROM locations WHERE (id = " + id + ")";
         Statement st = c.createStatement();
@@ -188,6 +188,15 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
     }
 
     public void MarkItemAsDamaged(int id, int itemCounts) throws SQLException
+    {
+        String query = "";
+        Statement st = c.createStatement();
+        st.executeUpdate(query);
+        st.close();
+        c.close();
+    }
+
+    public void returnItem(int id, int count) throws SQLException
     {
         String query = "";
         Statement st = c.createStatement();

@@ -5,6 +5,7 @@ import DBServer.Data.Location;
 import DBServer.Data.Order;
 import DBServer.Services.IPoolService;
 import SQL.ISQLQueryInterpreter;
+import SQL.SQLQueryInterpreter;
 import com.google.gson.Gson;
 import org.eclipse.jetty.util.IO;
 
@@ -21,13 +22,17 @@ public class SocketHandler implements Runnable
 
 
 
-    public SocketHandler(Socket socket, ISQLQueryInterpreter sqlInterpreter, ConnectionPool connectionPool) {
+    public SocketHandler(Socket socket, ISQLQueryInterpreter interpreter, ConnectionPool connectionPool)
+    {
         this.socket = socket;
-        isqlQueryInterpreter = sqlInterpreter;
-        try {
+        isqlQueryInterpreter = interpreter;
+        try
+        {
             inFromClient = new ObjectInputStream(socket.getInputStream());
             outToClient = new ObjectOutputStream(socket.getOutputStream());
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
         connectionPool.addHandler(this);
@@ -83,8 +88,11 @@ public class SocketHandler implements Runnable
                     }
                     case "MarkItemAsDamaged":
                     {
-                        Item item = gson.fromJson(message, Item.class);
-                        //?
+                        String string = gson.fromJson(message, String.class);
+                        String[] split = string.split("#");
+                        int id = Integer.parseInt(split[0]);
+                        int count = Integer.parseInt(split[1]);
+                        isqlQueryInterpreter.MarkItemAsDamaged(id, count);
                     }
                     case "AddItem":
                     {
@@ -94,7 +102,11 @@ public class SocketHandler implements Runnable
                     }
                     case "ReturnItems":
                     {
-                        //?
+                        String string = gson.fromJson(message, String.class);
+                        String[] split = string.split("#");
+                        int id = Integer.parseInt(split[0]);
+                        int count = Integer.parseInt(split[1]);
+                        isqlQueryInterpreter.returnItem(id, count);
                     }
                     case "GetOrder":
                     {
@@ -122,18 +134,21 @@ public class SocketHandler implements Runnable
                     }
                     case "CutItem":
                     {
-                        //*
+                        //nonexistent socket sending
                     }
                     case "AllocPutaway":
                     {
-                        //*
+                        Location loc = gson.fromJson(message, Location.class);
+                        Location loc2 = isqlQueryInterpreter.getLocation(loc.getId());
+                        if(loc2.getItemID() == 0)
+                        {
+                            isqlQueryInterpreter.updateLocation(loc);
+                        }
                     }
                     case "GetLocation":
                     {
-                        int id = 0;
                         String number = gson.fromJson(message, String.class);
-                        id = Integer.parseInt(number);
-                        Location loc = isqlQueryInterpreter.getLocation(id);
+                        Location loc = isqlQueryInterpreter.getLocation(number);
                         String json = gson.toJson(loc);
                         String transmit = "";
                         if (!loc.getId().equals(""))
@@ -150,10 +165,8 @@ public class SocketHandler implements Runnable
                     }
                     case "DeleteLocation" :
                     {
-                        int id = 0;
                         String number = gson.fromJson(message, String.class);
-                        id = Integer.parseInt(number);
-                        isqlQueryInterpreter.deleteLocation(id);
+                        isqlQueryInterpreter.deleteLocation(number);
                     }
                     case "AddLocation":
                     {

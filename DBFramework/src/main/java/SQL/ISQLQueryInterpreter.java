@@ -21,8 +21,9 @@ public interface ISQLQueryInterpreter {
     void cutFromOrder(int id, int itemID, int itemCount) throws SQLException;
     void allocPutaway(String locationID, int itemID) throws SQLException;
     void updateLocation(Location loc) throws SQLException;
-    void deleteLocation(int id) throws SQLException;
+    void deleteLocation(String id) throws SQLException;
     void addLocation(Location loc) throws SQLException;
-    Location getLocation(int id) throws SQLException;
+    Location getLocation(String id) throws SQLException;
     void MarkItemAsDamaged(int id, int itemCounts) throws SQLException;
+    void returnItem(int id, int count) throws SQLException;
 }

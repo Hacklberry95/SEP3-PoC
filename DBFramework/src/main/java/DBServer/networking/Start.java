@@ -20,7 +20,7 @@ public class Start
             {
                 System.out.println("[SERVER] Waiting for client connection");
                 Socket socket = serverSocket.accept();
-                SocketHandler socketHandler = new SocketHandler(socket,sqlQueryInterpreter,connectionPool);
+                SocketHandler socketHandler = new SocketHandler(socket, sqlQueryInterpreter ,connectionPool);
                 new Thread(socketHandler).start();
                 System.out.println("[SERVER] Connected to client");
             }
