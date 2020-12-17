@@ -48,6 +48,11 @@
     private int itemId;
     private int itemCount;
 
+    public Picker()
+    { 
+        order = null;
+    }
+
     public async Task ConfirmPick()
     {
         CustomHTTPRequests requests = new CustomHTTPRequests();
