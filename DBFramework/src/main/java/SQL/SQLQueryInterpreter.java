@@ -14,21 +14,14 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
     private Connection c;
     private ArrayList<Integer> intArr;
 
-    public SQLQueryInterpreter()
-    {
-        getConnection();
-    }
 
-    public void getConnection()
-    {
+    public void getConnection() throws SQLException {
         try
         {
-            Class.forName("org.postgresql.Driver");
-            c = DriverManager
-                    .getConnection("jdbc:postgresql://localhost:5432/SEP3-PoC", "postgres",
-                            "Aoe3tadtwc-2000");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3", "postgres",
+                            "0806");
         }
-        catch (SQLException | ClassNotFoundException e)
+        catch (SQLException e)
         {
             e.printStackTrace();
         }
@@ -134,7 +127,7 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
     /*public void cutFromOrder(int id, int itemID, int itemCount) throws SQLException
     {
         //write query
-        String query = "";
+        String query = "DELETE FROM orders WHERE (items = " + itemID +");";
         Statement st = c.createStatement();
         st.execute(query);
         st.close();
@@ -143,7 +136,7 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
 
     /*public void allocPutaway(String locationID, int itemID) throws SQLException //deprecated
     {
-        String query = "";
+        String query = "UPDATE locations SET item = "+ itemID  +" WHERE locations = "+ locationID +"";
         Statement st = c.createStatement();
         st.execute(query);
         st.close();
@@ -152,7 +145,7 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
 
     public void updateLocation(Location loc) throws SQLException
     {
-        String query = "";
+        String query = "UPDATE locations SET item = " +loc.getItemID()+ ", checksum = " +loc.getChecksum()+ "";
         Statement st = c.createStatement();
         st.executeUpdate(query);
         st.close();
@@ -170,7 +163,7 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
 
     public void addLocation(Location loc) throws SQLException
     {
-        String query = "";
+        String query = "INSERT INTO locations (item, checksum) VALUES ("+ loc.getItemID() + "," + loc.getChecksum() +")";
         Statement st = c.createStatement();
         st.executeUpdate(query);
         st.close();
@@ -190,13 +183,19 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
 
     public void MarkItemAsDamaged(int id, int itemCounts) throws SQLException
     {
-        String query = "";
+        String query = "UPDATE stock SET \"\\\"itemCounts\\\"\" = (SELECT (\"\\\"itemCounts\\\"\" - " + itemCounts + ") FROM stock WHERE item = "+id+")" +
+                "WHERE item = "+id+";";
         Statement st = c.createStatement();
         st.executeUpdate(query);
         st.close();
+        String query1 = "UPDATE damaged SET \"\\\"itemCounts\\\"\" = (SELECT (\"\\\"itemCounts\\\"\" + " + itemCounts + ") FROM damaged WHERE item = "+id+")" +
+                "WHERE item = "+id+";";
+        Statement st1 = c.createStatement();
+        st1.executeQuery(query1);
+        st1.close();
         c.close();
     }
-
+//stock table search for the id edit the count
     public void returnItem(int id, int count) throws SQLException
     {
         String query = "";
@@ -205,4 +204,6 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
         st.close();
         c.close();
     }
+
+
 }
