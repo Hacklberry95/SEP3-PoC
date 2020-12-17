@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using ClientFramework.Authorization;
+using System.Collections.Generic;
 
 namespace ClientFramework.REST
 {   
@@ -52,9 +53,8 @@ namespace ClientFramework.REST
 
         public async Task<HttpResponseMessage> AddNewItem(Item item)
         {
-            Uri webService = new Uri(uriMain + "itemControl");
-            string jsonString = "";
-            jsonString = JsonSerializer.Serialize(item, item.GetType());
+            Uri webService = new Uri(uriMain + "itemControl/addNew");
+            string jsonString = JsonSerializer.Serialize(item, item.GetType());
             StringContent content = new StringContent(jsonString);
             HttpResponseMessage message = await client.PostAsync(webService, content);
             if (message.IsSuccessStatusCode) return message;
@@ -62,7 +62,7 @@ namespace ClientFramework.REST
         }
         public async Task<HttpResponseMessage> PostAddMoreItem(int id, int count)
         {
-            Uri webService = new Uri(uriMain + "item");
+            Uri webService = new Uri(uriMain + "itemControl");
             string sendString = id.ToString() + "#" + count.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -85,7 +85,8 @@ namespace ClientFramework.REST
             else throw new Exception("User not found");
         }
         
-        //redundant method probably
+        //redundant method probably - confirmed
+        [Obsolete]
         public async Task<HttpResponseMessage> ConfirmPick(int itemId, int orderId)
         {
             Uri webService = new Uri(uriMain + "clientControl");
@@ -99,7 +100,7 @@ namespace ClientFramework.REST
         
         public async Task<HttpResponseMessage> ReceiveItem(int itemId, int count)
         {
-            Uri webService = new Uri(uriMain + "itemControl");
+            Uri webService = new Uri(uriMain + "itemControl/receive");
             string sendString = itemId.ToString() + "#" + count.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -112,9 +113,50 @@ namespace ClientFramework.REST
                 return null;
         }
 
-        public async Task<HttpResponseMessage> EditItem(int itemId, int count)
+        public async Task<HttpResponseMessage> EditItem(Item item)
         {
             Uri webService = new Uri(uriMain + "itemControl");
+            string jsonString = JsonSerializer.Serialize(item, item.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PatchAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        public async Task<HttpResponseMessage> RemoveItem(int itemId)
+        {
+            Uri webService = new Uri(uriMain + "itemControl");
+            string jsonString = JsonSerializer.Serialize(itemId, itemId.GetType());
+            StringContent content = new StringContent(jsonString);
+            HttpResponseMessage message = await client.PutAsync(webService, content);
+            if (message.IsSuccessStatusCode)
+            {
+                return message;
+            }
+            else 
+                return null;
+        }
+        
+        public async Task<Item> GetItem(int itemId)
+        {
+            Uri webService = new Uri(uriMain + $"itemControl/get?id={itemId}");
+            HttpResponseMessage message = await client.GetAsync(webService);
+            if (message.IsSuccessStatusCode)
+            {
+                string json = await message.Content.ReadAsStringAsync();
+                Item item = JsonSerializer.Deserialize<Item>(json);
+                return item;
+            }
+            else return null;
+        }
+        
+        public async Task<HttpResponseMessage> MarkItemAsDamaged(int itemId, int count)
+        {
+            Uri webService = new Uri(uriMain + "itemControl/damaged");
             string sendString = itemId.ToString() + "#" + count.ToString();
             string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
             StringContent content = new StringContent(jsonString);
@@ -127,11 +169,12 @@ namespace ClientFramework.REST
                 return null;
         }
         
-        public async Task<HttpResponseMessage> RemoveItem(int itemId)
+        public async Task<HttpResponseMessage> AllocatePutaway(Item item, string id)
         {
-            Uri webService = new Uri(uriMain + "itemControl");
-            string sendString = itemId.ToString();
-            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            Uri webService = new Uri(uriMain + "locationControl/putaway");
+            string jsonItem = JsonSerializer.Serialize(item, item.GetType());
+            string transmit = JsonSerializer.Serialize(id, String.Empty.GetType());
+            string jsonString = jsonItem + "#" + transmit;
             StringContent content = new StringContent(jsonString);
             HttpResponseMessage message = await client.PostAsync(webService, content);
             if (message.IsSuccessStatusCode)
@@ -142,56 +185,10 @@ namespace ClientFramework.REST
                 return null;
         }
         
-        public async Task<HttpResponseMessage> GetItem(int itemId)
+        public async Task<HttpResponseMessage> CreateLocation(string locationId)
         {
-            Uri webService = new Uri(uriMain + "itemControl");
-            string sendString = itemId.ToString();
-            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
-            StringContent content = new StringContent(jsonString);
-            HttpResponseMessage message = await client.PostAsync(webService, content);
-            if (message.IsSuccessStatusCode)
-            {
-                return message;
-            }
-            else 
-                return null;
-        }
-        
-        public async Task<HttpResponseMessage> MarkItemAsDamaged(int itemId)
-        {
-            Uri webService = new Uri(uriMain + "itemControl");
-            string sendString = itemId.ToString();
-            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
-            StringContent content = new StringContent(jsonString);
-            HttpResponseMessage message = await client.PostAsync(webService, content);
-            if (message.IsSuccessStatusCode)
-            {
-                return message;
-            }
-            else 
-                return null;
-        }
-        
-        public async Task<HttpResponseMessage> AllocatePutaway(int itemId)
-        {
-            Uri webService = new Uri(uriMain + "locationControl");
-            string sendString = itemId.ToString();
-            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
-            StringContent content = new StringContent(jsonString);
-            HttpResponseMessage message = await client.PostAsync(webService, content);
-            if (message.IsSuccessStatusCode)
-            {
-                return message;
-            }
-            else 
-                return null;
-        }
-        
-        public async Task<HttpResponseMessage> CreateLocation(int locationId)
-        {
-            Uri webService = new Uri(uriMain + "locationControl");
-            string sendString = locationId.ToString();
-            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            Uri webService = new Uri(uriMain + "locationControl/create");
+            string jsonString = JsonSerializer.Serialize(locationId, locationId.GetType());
             StringContent content = new StringContent(jsonString);
             HttpResponseMessage message = await client.PostAsync(webService, content);
             if (message.IsSuccessStatusCode)
@@ -207,7 +204,7 @@ namespace ClientFramework.REST
             Uri webService = new Uri(uriMain + "locationControl");
             string jsonString = JsonSerializer.Serialize(location, location.GetType());
             StringContent content = new StringContent(jsonString);
-            HttpResponseMessage message = await client.PostAsync(webService, content);
+            HttpResponseMessage message = await client.PatchAsync(webService, content);
             if (message.IsSuccessStatusCode)
             {
                 return message;
@@ -216,13 +213,12 @@ namespace ClientFramework.REST
                 return null;
         }
         
-        public async Task<HttpResponseMessage> DeleteLocation(int locationId)
+        public async Task<HttpResponseMessage> DeleteLocation(string locationId)
         {
             Uri webService = new Uri(uriMain + "locationControl");
-            string sendString = locationId.ToString();
-            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            string jsonString = JsonSerializer.Serialize(locationId, locationId.GetType());
             StringContent content = new StringContent(jsonString);
-            HttpResponseMessage message = await client.PostAsync(webService, content);
+            HttpResponseMessage message = await client.PutAsync(webService, content);
             if (message.IsSuccessStatusCode)
             {
                 return message;
@@ -231,13 +227,10 @@ namespace ClientFramework.REST
                 return null;
         }
         
-        public async Task<HttpResponseMessage> GetLocation(int locationId)
+        public async Task<HttpResponseMessage> GetLocation(string locationId)
         {
-            Uri webService = new Uri(uriMain + "locationControl");
-            string sendString = locationId.ToString();
-            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
-            StringContent content = new StringContent(jsonString);
-            HttpResponseMessage message = await client.PostAsync(webService, content);
+            Uri webService = new Uri(uriMain + $"locationControl/get?id={locationId}");
+            HttpResponseMessage message = await client.GetAsync(webService);
             if (message.IsSuccessStatusCode)
             {
                 return message;
@@ -246,16 +239,16 @@ namespace ClientFramework.REST
                 return null;
         }
         
-        public async Task<HttpResponseMessage> ReplenishLocation(int locationId)
+        public async Task<List<string>> ReplenishLocation(string locationId)
         {
             Uri webService = new Uri(uriMain + "locationControl");
-            string sendString = locationId.ToString();
-            string jsonString = JsonSerializer.Serialize(sendString, sendString.GetType());
+            string jsonString = JsonSerializer.Serialize(locationId, locationId.GetType());
             StringContent content = new StringContent(jsonString);
             HttpResponseMessage message = await client.PostAsync(webService, content);
             if (message.IsSuccessStatusCode)
             {
-                return message;
+                string json = await message.Content.ReadAsStringAsync();
+
             }
             else 
                 return null;

@@ -21,9 +21,9 @@ namespace ServerFramework.Controllers
             client = new ClientWebServiceImpl();
         }
 
-
+        [Route("/putaway")]
         [HttpPost]
-        public async Task<ActionResult> AllocatePutaway(string content)
+        public async Task<ActionResult> AllocatePutaway([FromBody] string content)
         {
             try
             {
@@ -38,8 +38,9 @@ namespace ServerFramework.Controllers
             }
         }
 
+        [Route("/create")]
         [HttpPost]
-        public async Task<ActionResult> CreateLocation(string id)
+        public async Task<ActionResult> CreateLocation([FromBody] string id)
         {
             try
             {
@@ -53,7 +54,7 @@ namespace ServerFramework.Controllers
         }
 
         [HttpPatch]
-        public async Task<ActionResult> UpdateLocation(Location item)
+        public async Task<ActionResult> UpdateLocation([FromBody] Location item)
         {
             try
             {
@@ -66,8 +67,8 @@ namespace ServerFramework.Controllers
             }
         }
 
-        [HttpDelete]
-        public async Task<ActionResult> DeleteLocation(string id)
+        [HttpPut]
+        public async Task<ActionResult> DeleteLocation([FromBody] string id)
         {
             try
             {
@@ -80,8 +81,9 @@ namespace ServerFramework.Controllers
             }
         }
 
+        [Route("/get")]
         [HttpGet]
-        public async Task<ActionResult> GetLocation(string id)
+        public async Task<ActionResult> GetLocation([FromBody] string id)
         {
             try
             {
@@ -95,7 +97,7 @@ namespace ServerFramework.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ReplenishLocation(string id)
+        public async Task<ActionResult> ReplenishLocation([FromBody] string id)
         {
             try
             {

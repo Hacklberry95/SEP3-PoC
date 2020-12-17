@@ -27,7 +27,7 @@ namespace ServerFramework.Controllers
         /// <param name="orderId">Id of order to confirm</param>
         /// <returns>HTTP status code 200 or 500.</returns>
         [HttpPost]
-        public async Task<ActionResult> PostConfirmation(int orderId)
+        public async Task<ActionResult> PostConfirmation([FromBody] int orderId)
         {
             try
             {

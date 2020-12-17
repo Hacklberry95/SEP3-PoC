@@ -20,8 +20,9 @@ namespace ServerFramework.Controllers
             client = new ClientWebServiceImpl();
         }
 
+        [Route("/receive")]
         [HttpPost]
-        public async Task<ActionResult> ReceiveItem(string content)
+        public async Task<ActionResult> ReceiveItem([FromBody] string content)
         {
             try
             {
@@ -38,8 +39,9 @@ namespace ServerFramework.Controllers
             }
         }
 
+        [Route("/addNew")]
         [HttpPost]
-        public async Task<ActionResult> AddNewItem(Item item)
+        public async Task<ActionResult> AddNewItem([FromBody] Item item)
         {
             try
             {
@@ -53,7 +55,7 @@ namespace ServerFramework.Controllers
         }
 
         [HttpPatch]
-        public async Task<ActionResult> EditItem(Item item)
+        public async Task<ActionResult> EditItem([FromBody] Item item)
         {
             try
             {
@@ -66,8 +68,8 @@ namespace ServerFramework.Controllers
             }
         }
 
-        [HttpDelete]
-        public async Task<ActionResult> RemoveItem(int id)
+        [HttpPut]
+        public async Task<ActionResult> RemoveItem([FromBody] int id)
         {
             try
             {
@@ -80,8 +82,9 @@ namespace ServerFramework.Controllers
             }
         }
 
+        [Route("/get")]
         [HttpGet]
-        public async Task<ActionResult> GetItem(int id)
+        public async Task<ActionResult> GetItem([FromQuery] int id)
         {
             try
             {
@@ -94,12 +97,16 @@ namespace ServerFramework.Controllers
             }
         }
 
+        [Route("/damaged")]
         [HttpPost]
-        public async Task<ActionResult> MarkItemAsDamaged(int id, int count)
+        public async Task<ActionResult> MarkItemAsDamaged([FromBody] string content)
         {
             try
             {
-                await client.MarkItemAsDamaged(id, count);
+                string[] arr = content.Split('#');
+                int itemID = int.Parse(arr[0]);
+                int count = int.Parse(arr[1]);
+                await client.MarkItemAsDamaged(itemID, count);
                 return Ok();
             }
             catch (Exception e)
