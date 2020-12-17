@@ -38,8 +38,8 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
 
     public void addItem(Item item) throws SQLException
     {
-        //finish INSERT INTO statement
-        String query = "INSERT INTO item () VALUES ()" + ";";
+        String query = "INSERT INTO item (name, weight, width, height, length, description) VALUES " +
+                "("+item.getName()+ "," +item.getWeight()+ "," +item.getWidth()+ "," +item.getHeight()+ "," +item.getLength()+ "," +item.getDescription()+");";
         Statement st = c.createStatement();
         st.executeUpdate(query);
         st.close();
@@ -195,10 +195,10 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
         st1.close();
         c.close();
     }
-//stock table search for the id edit the count
     public void returnItem(int id, int count) throws SQLException
     {
-        String query = "";
+        String query = "UPDATE stock SET \"\\\"itemCounts\\\"\" = (SELECT (\"\\\"itemCounts\\\"\" - " + count + ") FROM stock WHERE item = "+id+")" +
+                "WHERE item = "+id+";";
         Statement st = c.createStatement();
         st.executeUpdate(query);
         st.close();

@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 public class Start
 {
-    private static final int SERVER_PORT = 9090;
+    private static final int SERVER_PORT = 8080;
 
     public void start()
     {
