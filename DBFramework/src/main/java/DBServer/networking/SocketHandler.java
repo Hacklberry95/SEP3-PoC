@@ -1,5 +1,8 @@
 package DBServer.networking;
 
+import DBServer.Data.Item;
+import DBServer.Data.Location;
+import DBServer.Data.Order;
 import DBServer.Services.IPoolService;
 import SQL.ISQLQueryInterpreter;
 import com.google.gson.Gson;
@@ -50,6 +53,112 @@ public class SocketHandler implements Runnable
                             String returnData = "userInfo" + "@" + gson.toJson(isqlQueryInterpreter.getUserById(message));
                             trans(returnData, outToClient);
                         }
+                    }
+                    case "GetItem":
+                    {
+                        int id = 0;
+                        String number = gson.fromJson(message, String.class);
+                        id = Integer.parseInt(number);
+                        Item item = isqlQueryInterpreter.getItem(id);
+                        String json = gson.toJson(item);
+                        String transmit = "";
+                        if(item.getName() != null)
+                        {
+                            transmit = "GetItem@" + json;
+                        }
+                        trans(transmit, outToClient);
+                    }
+                    case "EditItem":
+                    {
+                        Item item = gson.fromJson(message, Item.class);
+                        isqlQueryInterpreter.updateItem(item);
+
+                    }
+                    case "RemoveItem":
+                    {
+                        int id = 0;
+                        String number = gson.fromJson(message, String.class);
+                        id = Integer.parseInt(number);
+                        isqlQueryInterpreter.removeItem(id);
+                    }
+                    case "MarkItemAsDamaged":
+                    {
+                        Item item = gson.fromJson(message, Item.class);
+                        //?
+                    }
+                    case "AddItem":
+                    {
+                        Item item = gson.fromJson(message, Item.class);
+                        isqlQueryInterpreter.addItem(item);
+
+                    }
+                    case "ReturnItems":
+                    {
+                        //?
+                    }
+                    case "GetOrder":
+                    {
+                        int id = 0;
+                        String number = gson.fromJson(message, String.class);
+                        id = Integer.parseInt(number);
+                        Order order = isqlQueryInterpreter.getOrderById(id);
+                        String json = gson.toJson(order);
+                        String transmit = "";
+                        if (order.getOrderState() != -1)
+                        {
+                            transmit = "GetOrder@" + json;
+                        }
+                        trans(transmit, outToClient);
+                    }
+                    case "FinalizePick":
+                    {
+                        int orderID = gson.fromJson(message, Integer.class);
+                        isqlQueryInterpreter.finalizePick(orderID);
+                    }
+                    case "CancelOrder" :
+                    {
+                        int orderID = gson.fromJson(message, Integer.class);
+                        isqlQueryInterpreter.cancelOrder(orderID);
+                    }
+                    case "CutItem":
+                    {
+                        //*
+                    }
+                    case "AllocPutaway":
+                    {
+                        //*
+                    }
+                    case "GetLocation":
+                    {
+                        int id = 0;
+                        String number = gson.fromJson(message, String.class);
+                        id = Integer.parseInt(number);
+                        Location loc = isqlQueryInterpreter.getLocation(id);
+                        String json = gson.toJson(loc);
+                        String transmit = "";
+                        if (!loc.getId().equals(""))
+                        {
+                            transmit = "GetLocation@" + json;
+                        }
+                        trans(transmit, outToClient);
+
+                    }
+                    case "UpdateLocation":
+                    {
+                        Location loc = gson.fromJson(message, Location.class);
+                        isqlQueryInterpreter.updateLocation(loc);
+                    }
+                    case "DeleteLocation" :
+                    {
+                        int id = 0;
+                        String number = gson.fromJson(message, String.class);
+                        id = Integer.parseInt(number);
+                        isqlQueryInterpreter.deleteLocation(id);
+                    }
+                    case "AddLocation":
+                    {
+                        Location loc = gson.fromJson(message, Location.class);
+                        isqlQueryInterpreter.addLocation(loc);
                     }
                 }
             } catch (IOException | SQLException e) {

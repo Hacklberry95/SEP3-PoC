@@ -1,6 +1,7 @@
 package SQL;
 
 import DBServer.Data.Item;
+import DBServer.Data.Location;
 import DBServer.Data.Order;
 import DBServer.Data.User;
 
@@ -110,5 +111,88 @@ public class SQLQueryInterpreter implements ISQLQueryInterpreter
         if(user.getUsername().equals(""))
         return false;
         else return true;
+    }
+    public void finalizePick(int id) throws SQLException
+    {
+        String query = "UPDATE orders SET orderstate = 3 WHERE orderid = " + id + ";";
+        Statement st = c.createStatement();
+        st.executeUpdate(query);
+        st.close();
+        c.close();
+    }
+
+    public void cancelOrder(int id) throws SQLException
+    {
+        String query = "DELETE FROM orders WHERE (orderid = " + id + ");";
+        Statement st = c.createStatement();
+        st.execute(query);
+        st.close();
+        c.close();
+    }
+
+    public void cutFromOrder(int id, int itemID, int itemCount) throws SQLException
+    {
+        //write query
+        String query = "";
+        Statement st = c.createStatement();
+        st.execute(query);
+        st.close();
+        c.close();
+    }
+
+    public void allocPutaway(String locationID, int itemID) throws SQLException
+    {
+        String query = "";
+        Statement st = c.createStatement();
+        st.execute(query);
+        st.close();
+        c.close();
+    }
+
+    public void updateLocation(Location loc) throws SQLException
+    {
+        String query = "";
+        Statement st = c.createStatement();
+        st.executeUpdate(query);
+        st.close();
+        c.close();
+    }
+
+    public void deleteLocation(int id) throws SQLException
+    {
+        String query = "DELETE FROM locations WHERE (id = " + id + ");";
+        Statement st = c.createStatement();
+        st.executeUpdate(query);
+        st.close();
+        c.close();
+    }
+
+    public void addLocation(Location loc) throws SQLException
+    {
+        String query = "";
+        Statement st = c.createStatement();
+        st.executeUpdate(query);
+        st.close();
+        c.close();
+    }
+
+    public Location getLocation(int id) throws SQLException
+    {
+        String query = "SELECT * FROM locations WHERE (id = " + id + ")";
+        Statement st = c.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        Location loc = new Location(rs.getString("id"), rs.getInt("item"), rs.getInt("checksum"));
+        st.close();
+        c.close();
+        return loc;
+    }
+
+    public void MarkItemAsDamaged(int id, int itemCounts) throws SQLException
+    {
+        String query = "";
+        Statement st = c.createStatement();
+        st.executeUpdate(query);
+        st.close();
+        c.close();
     }
 }
