@@ -1,27 +1,28 @@
 ﻿@page "/Picker"
 @using ClientFramework.Data
 @using ClientFramework.REST
+@inject NavigationManager UriHelper
 
 <h3>Picking</h3>
 
 <p>
     @if (order == null)
     {
-        <p onload="@TakeOrder()"><em>Loading...</em></p>
-    }
-    else
-    {
-        <table class="table">
-            <thead>
+    <p onload="@TakeOrder()"><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
             <tr>
                 <th>Location</th>
                 <th>Item ID</th>
                 <th>Item name</th>
                 <th>Amount to pick</th>
             </tr>
-            </thead>
-            <tbody>
-            @for(var i = 0; i < order.Items.Count; i++)
+        </thead>
+        <tbody>
+            @for (var i = 0; i < order.Items.Count; i++)
             {
                 <tr>
                     <td>@order.Locations[i].getFullId()</td>
@@ -30,33 +31,34 @@
                     <td>@order.ItemCounts[i]</td>
                 </tr>
             }
-            </tbody>
-        </table>
-        <input type="number" id="id" name="id" @bind-value="itemId">
-        <input type="number" id="count" name="count" @bind-value="itemCount">
-        <button onclick="@ConfirmPick()">Confirm pick</button>
-    }
-</p>
-
-@code {
-    private Order order;
-    private int itemId;
-    private int itemCount;
-
-    public Picker()
-    { 
-        order = null;
-    }
-
-    public async Task ConfirmPick()
-    {
-        CustomHTTPRequests requests = new CustomHTTPRequests();
-        await requests.FinalizePicking(order.Id);
-    }
-
-    public async Task TakeOrder()
-    {
-        CustomHTTPRequests requests = new CustomHTTPRequests();
-        order = await requests.TakeNewOrder();
-    }
+        </tbody>
+    </table>
+    <input type="number" id="id" name="id" @bind-value="itemId">
+    <input type="number" id="count" name="count" @bind-value="itemCount">
+    <button onclick="@ConfirmPick()">Confirm pick</button>
 }
+    </p>
+
+    @code {
+        private Order order;
+        private int itemId;
+        private int itemCount;
+
+        public Picker()
+        {
+            order = null;
+        }
+
+        public async Task ConfirmPick()
+        {
+            CustomHTTPRequests requests = new CustomHTTPRequests();
+            await requests.FinalizePicking(order.Id);
+            UriHelper.NavigateTo("NewOrder");
+        }
+
+        public async Task TakeOrder()
+        {
+            CustomHTTPRequests requests = new CustomHTTPRequests();
+            order = await requests.TakeNewOrder();
+        }
+    }
